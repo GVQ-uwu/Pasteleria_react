@@ -1,0 +1,53 @@
+/* Estilos */
+body {
+    margin: 6 px;
+    font-family: Arial, sans-serif;
+    background-color: #FFF5E1;
+    /* crema pastel */
+  } 
+   
+  /* Menú lateral */
+  .barra_lateral {
+    width: 200px;
+    height: 100vh;
+    background-color: #8B4513;
+    /* chocolate */
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+  }
+  
+  .barra_lateral h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .barra_lateral a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin: 10px 0;
+    padding: 8px;
+    border-radius: 5px;
+  }
+  
+  .barra_lateral a:hover {
+    background-color: #FFC0CB;
+    /* rosa suave */
+    color: #5D4037;
+    /* marrón oscuro */
+  }
+  
+  /* Contenido principal */
+  .mensaje {
+    margin-left: 220px;
+    /* espacio para el menú */
+    padding: 20px;
+  }
+  
+  .mensaje h1 {
+    color: #5D4037;
+  }
