@@ -1,54 +1,62 @@
-import React from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function Navbar() {
+export default function Login() {
   const navigate = useNavigate();
-  const tipo = localStorage.getItem("tipoUsuario"); // admin o usuario
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleLogout = () => {
-    localStorage.removeItem("tipoUsuario");
-    navigate("/");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (email === "admin@gmail.com" && password === "1234") {
+      localStorage.setItem("tipoUsuario", "admin");
+      alert("Bienvenido administrador 🍰");
+      navigate("/acceso-admin");
+    } else {
+      localStorage.setItem("tipoUsuario", "usuario");
+      alert("Bienvenido usuario 😊");
+      navigate("/");
+    }
   };
 
-  const linkClass = ({ isActive }) =>
-    "nav-link" + (isActive ? " active" : "");
-
   return (
-    <header className="navbar">
-      <div className="navbar-inner">
-        <Link to="/" className="brand">
-          <span className="brand-script">Pastelería Sabores</span>
-        </Link>
+    <section className="container">
+      <div className="auth-card fade-in">
+        <h1 className="auth-title">Iniciar sesión</h1>
 
-        <nav className="nav-links" aria-label="principal">
-          <NavLink to="/" className={linkClass} end>Inicio</NavLink>
-          <NavLink to="/productos" className={linkClass}>Productos</NavLink>
-          <NavLink to="/nosotros" className={linkClass}>Nosotros</NavLink>
-          <NavLink to="/carrito" className={linkClass}>Carrito</NavLink>
+        <form onSubmit={handleSubmit} className="stack-16">
+          <div>
+            <label className="label" htmlFor="email">Correo</label>
+            <input
+              id="email"
+              className="input"
+              type="email"
+              placeholder="ejemplo@gmail.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-          {/* Si no ha iniciado sesión */}
-          {!tipo && (
-            <NavLink to="/login" className={linkClass}>Login</NavLink>
-          )}
+          <div>
+            <label className="label" htmlFor="password">Contraseña</label>
+            <input
+              id="password"
+              className="input"
+              type="password"
+              placeholder="••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
-          {/* Si es admin, muestra Admin y botón Salir */}
-          {tipo === "admin" && (
-            <>
-              <NavLink to="/acceso-admin" className={linkClass}>Admin</NavLink>
-              <button className="btn btn-rosa" onClick={handleLogout}>
-                Salir
-              </button>
-            </>
-          )}
-
-          {/* Si es usuario normal, solo botón Salir */}
-          {tipo === "usuario" && (
-            <button className="btn btn-rosa" onClick={handleLogout}>
-              Salir
-            </button>
-          )}
-        </nav>
+          <button className="btn btn-primary" type="submit">
+            Entrar
+          </button>
+        </form>
       </div>
-    </header>
+    </section>
   );
 }
