@@ -182,3 +182,21 @@ body{
 
 /* Espacio entre bloques de sección */
 .info-block + .info-block{ margin-top: 20px; }
+
+/* Centrado general de la página Nosotros */
+.container > h1,
+.container > h2,
+.container > p,
+.info-block h2 {
+  text-align: center;
+}
+
+.grid-2,
+.grid-3 {
+  justify-content: center;
+}
+
+.info-block p.desc {
+  text-align: center;
+}
+
