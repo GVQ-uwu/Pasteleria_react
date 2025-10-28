@@ -1,5 +1,5 @@
 import React from "react";
-import { useCarrito } from "../page/Carrito";
+import { useCarrito } from "../styles/carrito.css";
 
 export default function Checkout() {
   const { carrito, totalDinero } = useCarrito();

@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { useCarrito } from "../page/Carrito";
-import "./Carrito.css";
+import { useCarrito } from "../pages/Carrito.jsx";
 
 const CATALOGO = [
   { id: 1, codigo: "TC001", categoria: "Tortas Cuadradas", nombre: "Torta Cuadrada de Chocolate", precio: 45000, img: "Img/Torta Cuadrada de Chocolate.png" },
