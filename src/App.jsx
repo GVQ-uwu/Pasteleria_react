@@ -10,6 +10,7 @@ import Carrito from './pages/Carrito';
 import Login from './pages/Login';
 import AccesoAdmin from './pages/AccesoAdmin';
 import Usuarios from './pages/Usuarios';
+import Contact from "./pages/Contact";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Navbar />
       <main style={{ flex: 1, padding: '1rem' }}>
         <Routes>
+          <Route path="/contacto" element={<Contact />} />
           <Route path="/" element={<Home />} />
           <Route path="/productos" element={<Productos />} />
           <Route path="/nosotros" element={<Nosotros />} />
