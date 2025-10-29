@@ -1,7 +1,7 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 import Home from './pages/Home';
 import Productos from './pages/Productos';
@@ -10,13 +10,12 @@ import Carrito from './pages/Carrito';
 import Login from './pages/Login';
 import AccesoAdmin from './pages/AccesoAdmin';
 import Usuarios from './pages/Usuarios';
-import Contact from "./pages/Contact";
 
 function App() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main style={{ flex: 1, padding: '1rem' }}>
+      <main style={{ flex: 1, padding: "1rem" }}>
         <Routes>
           <Route path="/contacto" element={<Contact />} />
           <Route path="/" element={<Home />} />

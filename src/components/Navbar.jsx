@@ -14,42 +14,14 @@ export default function Navbar() {
     "nav-link" + (isActive ? " active" : "");
 
   return (
-    <header className="navbar">
-      <div className="navbar-inner">
-        <Link to="/" className="brand">
-          <span className="brand-script">Pastelería Sabores</span>
-        </Link>
-
-        <nav className="nav-links" aria-label="principal">
-          <NavLink to="/" className={linkClass} end>Inicio</NavLink>
-          <NavLink to="/productos" className={linkClass}>Productos</NavLink>
-          <NavLink to="/nosotros" className={linkClass}>Nosotros</NavLink>
-          <NavLink to="/contacto" className={linkClass}>Contacto</NavLink>
-          <NavLink to="/carrito" className={linkClass}>Carrito</NavLink>
-
-          {/* Si no ha iniciado sesión */}
-          {!tipo && (
-            <NavLink to="/login" className={linkClass}>Login</NavLink>
-          )}
-
-          {/* Si es admin, muestra Admin y botón Salir */}
-          {tipo === "admin" && (
-            <>
-              <NavLink to="/acceso-admin" className={linkClass}>Admin</NavLink>
-              <button className="btn btn-rosa" onClick={handleLogout}>
-                Salir
-              </button>
-            </>
-          )}
-
-          {/* Si es usuario normal, solo botón Salir */}
-          {tipo === "usuario" && (
-            <button className="btn btn-rosa" onClick={handleLogout}>
-              Salir
-            </button>
-          )}
-        </nav>
-      </div>
-    </header>
+    <nav style={{display:'flex', gap:'1rem', padding:'1rem', borderBottom:'1px solid #eee'}}>
+      <Link to="/">Inicio</Link>
+      <Link to="/productos">Productos</Link>
+      <Link to="/nosotros">Nosotros</Link>
+      <Link to="/carrito">Carrito</Link>
+      <Link to="/login">Login</Link>
+      <Link to="/acceso-admin">Admin</Link>
+      <Link to="/usuarios">Usuarios</Link>
+    </nav>
   );
 }
