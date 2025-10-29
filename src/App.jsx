@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import CarritoContext from './components/CarritoContext';
 
 import Home from './pages/Home';
 import Productos from './pages/Productos';
