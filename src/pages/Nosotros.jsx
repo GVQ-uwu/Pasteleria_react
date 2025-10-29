@@ -5,7 +5,7 @@ export default function Nosotros() {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
-
+  
   const secciones = [
     { id: "historia", texto: "Nuestra historia" },
     { id: "equipo", texto: "Nuestro equipo" },

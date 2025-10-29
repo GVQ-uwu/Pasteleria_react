@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-const CarritoContext = createContext();
-export const useCarrito = () => useContext(CarritoContext);
+const CarritoCtx = createContext();
+export const useCarrito = () => useContext(CarritoCtx);
 
 export function CarritoProvider({ children }) {
   const [carrito, setCarrito] = useState(() => {
@@ -17,8 +17,8 @@ export function CarritoProvider({ children }) {
   const totalDinero = carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
 
   return (
-    <CarritoContext.Provider value={{ carrito, setCarrito, totalProductos, totalDinero }}>
+    <CarritoCtx.Provider value={{ carrito, setCarrito, totalProductos, totalDinero }}>
       {children}
-    </CarritoContext.Provider>
+    </CarritoCtx.Provider>
   );
 }

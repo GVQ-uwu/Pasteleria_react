@@ -3,7 +3,7 @@ import brownie from "../assets/Brownie Sin Gluten.png";
 import cheesecake from "../assets/Cheesecake Sin Azucar.png";
 import tiramisu from "../assets/Tiramisu Clasico.png";
 import tortaVainilla from "../assets/Torta Circular de Vainilla.png";
-
+  
 export default function Home() {
   return (
     <div style={{ textAlign: "center" }}>

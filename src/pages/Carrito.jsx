@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { useCarrito } from "../pages/Carrito.jsx";
-
+ 
 const CATALOGO = [
   { id: 1, codigo: "TC001", categoria: "Tortas Cuadradas", nombre: "Torta Cuadrada de Chocolate", precio: 45000, img: "Img/Torta Cuadrada de Chocolate.png" },
   { id: 2, codigo: "TC002", categoria: "Tortas Cuadradas", nombre: "Torta Cuadrada de Frutas", precio: 50000, img: "Img/Torta Cuadrada de Frutas.png" },
