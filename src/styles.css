@@ -1,0 +1,29 @@
+
+:root{
+  --bg:#FFF5E1;
+  --accent:#FFC0CB;
+  --choco:#8B4513;
+  --text:#5D4037;
+  --text-sec:#6d7d8a;
+}
+*{ box-sizing:border-box; }
+html,body,#root{ height:100%; }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Lato', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+h1,h2,h3,h4,h5,h6{
+  font-family:'Pacifico', cursive;
+  color:var(--choco);
+}
+.navbar-brand{ font-family:'Pacifico', cursive; color:var(--choco); }
+.btn-accent{ background:var(--accent); border:none; color:#000; }
+.card-product img{ width:100%; height:200px; object-fit:cover; border-radius:12px; }
+.grid-2{ display:grid; grid-template-columns:1fr 380px; gap:1rem; }
+@media (max-width: 992px){ .grid-2{ grid-template-columns: 1fr; } }
+.badge-critico{ background:#e74c3c; color:#fff; }
+.badge-ok{ background:#2ecc71; color:#fff; }
+.admin-chip{ background:#f1d3d8; padding:3px 8px; border-radius:999px; margin-left:8px; }
+.footer{ margin-top:3rem; padding:2rem 0; border-top:1px solid #eadac2; font-size:.95rem; color:var(--text-sec); }

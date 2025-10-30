@@ -1,16 +1,24 @@
 {
-  "name": "pasteleria-sabores",
-  "version": "0.1.0",
+  "name": "pasteleria-1000-sabores-cra",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.28.0"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2",
+    "react-scripts": "5.0.1",
+    "bootstrap": "^5.3.3"
+  },
+  "devDependencies": {
+    "jasmine": "^5.4.0",
+    "npm-run-all": "^4.1.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test:jest": "react-scripts test --watchAll=false",
+    "test:jasmine": "jasmine tests/*.spec.js",
+    "test": "npm-run-all -s test:jest test:jasmine",
     "eject": "react-scripts eject"
   },
   "browserslist": {
@@ -24,8 +32,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "react-scripts": "5.0.1"
   }
 }
