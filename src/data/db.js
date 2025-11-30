@@ -51,9 +51,10 @@ const seed = {
   ],
   usuarios:[
     { id:'u-admin', nombre:'Admin', email:'root@admin', rol:'admin', fechaNacimiento:'1980-01-01' },
+    { id:'u-user', nombre:'Usuario', email:'user@user', rol:'user', fechaNacimiento:'1990-05-15' }
   ],
   pedidos:[]
-};
+};z
 
 function load(){
   const raw = localStorage.getItem(KEY);
