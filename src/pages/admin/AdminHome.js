@@ -1,10 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { productosStockCritico, listPedidos } from '../../data/db';
+import { ProductService } from '../../services/ProductService';
+import { OrderService } from '../../services/OrderService';
 
 export default function AdminHome(){
-  const criticos = productosStockCritico();
-  const pedidos = listPedidos().slice(-5).reverse();
+  const [criticos, setCriticos] = useState([]);
+  const [pedidos, setPedidos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      // Cargar productos para obtener stock crítico
+      const productsResponse = await ProductService.getProducts();
+      const criticalProducts = (productsResponse.data || []).filter(p => p.stock <= 5);
+      setCriticos(criticalProducts);
+
+      // Cargar pedidos (si tienes OrderService)
+      try {
+        const ordersResponse = await OrderService.getOrders();
+        const lastOrders = (ordersResponse.data || []).slice(-5).reverse();
+        setPedidos(lastOrders);
+      } catch (orderError) {
+        console.warn('No se pudieron cargar los pedidos:', orderError);
+        setPedidos([]);
+      }
+    } catch (err) {
+      setError('Error al cargar datos');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) return <div className="container py-4">Cargando...</div>;
+  if (error) return <div className="container py-4 alert alert-danger">{error}</div>;
+
   return (
     <div className="container py-4">
       <h2>Panel administrativo</h2>
@@ -25,7 +60,12 @@ export default function AdminHome(){
             <h5>Stock crítico</h5>
             {criticos.length===0 ? <p>Todo con buen stock.</p> : (
               <ul className="list-group">
-                {criticos.map(p=>(<li key={p.id} className="list-group-item d-flex justify-content-between"><span>{p.nombre}</span><span className="badge badge-critico">{p.stock}</span></li>))}
+                {criticos.map(p=>(
+                  <li key={p.id} className="list-group-item d-flex justify-content-between">
+                    <span>{p.nombre}</span>
+                    <span className="badge bg-danger">{p.stock}</span>
+                  </li>
+                ))}
               </ul>
             )}
           </div>
@@ -43,7 +83,7 @@ export default function AdminHome(){
                     <td>{p.id}</td>
                     <td>{new Date(p.fecha).toLocaleString()}</td>
                     <td>{p.userEmail}</td>
-                    <td>${p.totalFinal.toLocaleString()}</td>
+                    <td>${p.totalFinal?.toLocaleString() || '0'}</td>
                   </tr>
                 ))}
               </tbody>

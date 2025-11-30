@@ -1,22 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { listCategorias } from '../../data/db';
+import { CategoryService } from '../../services/CategoryService';
+import { ProductService } from '../../services/ProductService';
+import { useCart } from '../../context/CartContext';
 
 export default function Categorias(){
-  const cats = listCategorias();
-  return (
-    <div className="container py-4">
-      <h2>Categorías</h2>
-      <div className="row g-3">
-        {cats.map(c=>(
-          <div className="col-12 col-sm-6 col-lg-4" key={c.id}>
-            <div className="p-3 rounded border bg-white h-100 d-flex flex-column">
-              <h5 className="mb-3">{c.nombre}</h5>
-              <Link to={`/productos?cat=${c.id}`} className="mt-auto btn btn-outline-secondary">Ver productos</Link>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+  const [categorias, setCategorias] = useState([]);
+  const [productos, setProductos] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      const [catsRes, prodsRes] = await Promise.all([
+        CategoryService.getCategories(),
+        ProductService.getProducts()
+      ]);
+      setCategorias(catsRes.data || []);
+      setProductos(prodsRes.data || []);
+    } catch (error) {
+      console.error('Error loading data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
 }

@@ -1,10 +1,37 @@
-import React from 'react';
-import { listProductos, listPedidos } from '../../data/db';
+import React, { useState, useEffect } from 'react';
+import { ProductService } from '../../services/ProductService';
+import { OrderService } from '../../services/OrderService';
 
 export default function AdminReportes(){
-  const pedidos = listPedidos();
-  const productos = listProductos();
-  const ventas = pedidos.reduce((acc,p)=> acc + p.totalFinal, 0);
+  const [pedidos, setPedidos] = useState([]);
+  const [productos, setProductos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      const [productsResponse, ordersResponse] = await Promise.all([
+        ProductService.getProducts(),
+        OrderService.getOrders()
+      ]);
+      setProductos(productsResponse.data || []);
+      setPedidos(ordersResponse.data || []);
+    } catch (err) {
+      setError('Error al cargar datos');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) return <div className="container py-4">Cargando...</div>;
+  if (error) return <div className="container py-4 alert alert-danger">{error}</div>;
+
+  const ventas = pedidos.reduce((acc,p)=> acc + (p.totalFinal || 0), 0);
 
   return (
     <div className="container py-4">
@@ -32,7 +59,7 @@ export default function AdminReportes(){
                       <tr key={p.id}>
                         <td>{new Date(p.fecha).toLocaleString()}</td>
                         <td>{p.userEmail}</td>
-                        <td>${p.totalFinal.toLocaleString()}</td>
+                        <td>${(p.totalFinal || 0).toLocaleString()}</td>
                       </tr>
                     ))}
                   </tbody>

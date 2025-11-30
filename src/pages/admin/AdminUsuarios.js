@@ -1,29 +1,71 @@
-import React, { useMemo, useState } from 'react';
-import { addUsuario, deleteUsuario, listUsuarios, updateUsuario } from '../../data/db';
+import React, { useMemo, useState, useEffect } from 'react';
+import { UserService } from '../../services/UserService';
 
 export default function AdminUsuarios(){
-  const [q,setQ] = useState('');
-  const [form,setForm] = useState({nombre:'', email:'', fechaNacimiento:''});
-  const [editId,setEditId] = useState(null);
-  const usuarios = listUsuarios();
-  const filtered = useMemo(()=> usuarios.filter(u=> !q || u.email.toLowerCase().includes(q.toLowerCase()) || (u.nombre||'').toLowerCase().includes(q.toLowerCase())), [usuarios,q]);
+  const [q, setQ] = useState('');
+  const [form, setForm] = useState({nombre:'', email:'', fechaNacimiento:''});
+  const [editId, setEditId] = useState(null);
+  const [usuarios, setUsuarios] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const submit = (e)=>{
-    e.preventDefault();
-    if(editId){
-      updateUsuario(editId, form);
-      setEditId(null);
-    }else{
-      addUsuario(form);
+  useEffect(() => {
+    loadUsuarios();
+  }, []);
+
+  const loadUsuarios = async () => {
+    try {
+      const response = await UserService.getUsers();
+      setUsuarios(response.data || []);
+    } catch (err) {
+      setError('Error al cargar usuarios');
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
-    setForm({nombre:'', email:'', fechaNacimiento:''});
-    window.location.reload();
   };
 
-  const edit = (u)=>{
+  const submit = async (e) => {
+    e.preventDefault();
+    try {
+      if(editId){
+        await UserService.updateUser(editId, form);
+        setEditId(null);
+      }else{
+        await UserService.createUser(form);
+      }
+      setForm({nombre:'', email:'', fechaNacimiento:''});
+      await loadUsuarios(); // Recargar la lista
+    } catch (err) {
+      setError('Error al guardar usuario');
+      console.error(err);
+    }
+  };
+
+  const edit = (u) => {
     setEditId(u.id);
     setForm({ nombre:u.nombre||'', email:u.email||'', fechaNacimiento:u.fechaNacimiento||'' });
   };
+
+  const del = async (id) => {
+    if(window.confirm('¿Eliminar usuario?')){
+      try {
+        await UserService.deleteUser(id);
+        await loadUsuarios(); // Recargar la lista
+      } catch (err) {
+        setError('Error al eliminar usuario');
+        console.error(err);
+      }
+    }
+  };
+
+  const filtered = useMemo(()=> 
+    usuarios.filter(u=> !q || u.email.toLowerCase().includes(q.toLowerCase()) || (u.nombre||'').toLowerCase().includes(q.toLowerCase())), 
+    [usuarios,q]
+  );
+
+  if (loading) return <div className="container py-4">Cargando...</div>;
+  if (error) return <div className="container py-4 alert alert-danger">{error}</div>;
 
   return (
     <div className="container py-4">
@@ -65,7 +107,7 @@ export default function AdminUsuarios(){
                     <td>{u.fechaNacimiento||'-'}</td>
                     <td className="text-end">
                       <button className="btn btn-sm btn-outline-secondary me-2" onClick={()=>edit(u)}>Editar</button>
-                      <button className="btn btn-sm btn-outline-danger" onClick={()=>{ if(window.confirm('¿Eliminar usuario?')) deleteUsuario(u.id); window.location.reload(); }}>Eliminar</button>
+                      <button className="btn btn-sm btn-outline-danger" onClick={()=>del(u.id)}>Eliminar</button>
                     </td>
                   </tr>
                 ))}

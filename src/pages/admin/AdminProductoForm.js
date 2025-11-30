@@ -1,34 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { addProducto, getProducto, listCategorias, updateProducto } from '../../data/db';
+import { ProductService } from '../../services/ProductService';
+import { CategoryService } from '../../services/CategoryService';
 
 export default function AdminProductoForm(){
   const { id } = useParams();
   const editing = !!id;
-  const nav = useNavigate();
+  const navigate = useNavigate();
 
-  const cats = listCategorias();
-  const existing = editing ? getProducto(id) : null;
-
-  const [form, setForm] = useState(existing || {
-    nombre:'', precio:0, stock:0, categoriaId: cats[0]?.id, tipo:'circular', tamano:'mediana', img:'', desc:'', oferta:false, destacado:false
+  const [cats, setCats] = useState([]);
+  const [form, setForm] = useState({
+    nombre:'', precio:0, stock:0, categoriaId: '', tipo:'circular', tamano:'mediana', img:'', desc:'', oferta:false, destacado:false
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  if(editing && !existing) return <div className="container py-4"><p>Producto no encontrado.</p></div>;
-
-  const submit = (e)=>{
-    e.preventDefault();
-    if(editing){
-      updateProducto(id, form);
-    }else{
-      addProducto(form);
+  useEffect(() => {
+    loadCategories();
+    if (editing) {
+      loadProduct();
     }
-    nav('/admin/productos');
+  }, [id]);
+
+  const loadCategories = async () => {
+    try {
+      const response = await CategoryService.getCategories();
+      setCats(response.data || []);
+      if (response.data.length > 0 && !editing) {
+        setForm(prev => ({ ...prev, categoriaId: response.data[0].id }));
+      }
+    } catch (err) {
+      console.error('Error al cargar categorías:', err);
+    }
   };
+
+  const loadProduct = async () => {
+    try {
+      const response = await ProductService.getProductById(id);
+      setForm(response.data);
+    } catch (err) {
+      setError('Producto no encontrado');
+      console.error(err);
+    }
+  };
+
+  const submit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      if(editing){
+        await ProductService.updateProduct(id, form);
+      }else{
+        await ProductService.createProduct(form);
+      }
+      navigate('/admin/productos');
+    } catch (err) {
+      setError('Error al guardar producto');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if(error && editing) return <div className="container py-4"><p className="alert alert-danger">{error}</p></div>;
 
   return (
     <div className="container py-4">
       <h2>{editing ? 'Editar' : 'Nuevo'} producto</h2>
+      
+      {error && <div className="alert alert-danger">{error}</div>}
+      
       <form className="row g-2" onSubmit={submit}>
         <div className="col-md-6">
           <label className="form-label">Nombre</label>
@@ -84,7 +125,9 @@ export default function AdminProductoForm(){
           </div>
         </div>
         <div className="col-12 mt-2">
-          <button className="btn btn-accent">{editing ? 'Guardar cambios' : 'Crear producto'}</button>
+          <button className="btn btn-accent" disabled={loading}>
+            {loading ? 'Guardando...' : (editing ? 'Guardar cambios' : 'Crear producto')}
+          </button>
         </div>
       </form>
     </div>
