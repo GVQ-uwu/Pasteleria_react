@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ProductService } from '../../services/ProductService';
@@ -41,15 +40,6 @@ export default function AdminHome(){
   if (loading) return <div className="container py-4">Cargando...</div>;
   if (error) return <div className="container py-4 alert alert-danger">{error}</div>;
 
-=======
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { productosStockCritico, listPedidos } from '../../data/db';
-
-export default function AdminHome(){
-  const criticos = productosStockCritico();
-  const pedidos = listPedidos().slice(-5).reverse();
->>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728
   return (
     <div className="container py-4">
       <h2>Panel administrativo</h2>
@@ -70,16 +60,12 @@ export default function AdminHome(){
             <h5>Stock crítico</h5>
             {criticos.length===0 ? <p>Todo con buen stock.</p> : (
               <ul className="list-group">
-<<<<<<< HEAD
                 {criticos.map(p=>(
                   <li key={p.id} className="list-group-item d-flex justify-content-between">
                     <span>{p.nombre}</span>
                     <span className="badge bg-danger">{p.stock}</span>
                   </li>
                 ))}
-=======
-                {criticos.map(p=>(<li key={p.id} className="list-group-item d-flex justify-content-between"><span>{p.nombre}</span><span className="badge badge-critico">{p.stock}</span></li>))}
->>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728
               </ul>
             )}
           </div>
@@ -97,11 +83,7 @@ export default function AdminHome(){
                     <td>{p.id}</td>
                     <td>{new Date(p.fecha).toLocaleString()}</td>
                     <td>{p.userEmail}</td>
-<<<<<<< HEAD
                     <td>${p.totalFinal?.toLocaleString() || '0'}</td>
-=======
-                    <td>${p.totalFinal.toLocaleString()}</td>
->>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728
                   </tr>
                 ))}
               </tbody>
@@ -111,8 +93,4 @@ export default function AdminHome(){
       </div>
     </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728

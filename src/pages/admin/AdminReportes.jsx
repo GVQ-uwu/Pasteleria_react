@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { ProductService } from '../../services/ProductService';
 import { OrderService } from '../../services/OrderService';
@@ -33,15 +32,6 @@ export default function AdminReportes(){
   if (error) return <div className="container py-4 alert alert-danger">{error}</div>;
 
   const ventas = pedidos.reduce((acc,p)=> acc + (p.totalFinal || 0), 0);
-=======
-import React from 'react';
-import { listProductos, listPedidos } from '../../data/db';
-
-export default function AdminReportes(){
-  const pedidos = listPedidos();
-  const productos = listProductos();
-  const ventas = pedidos.reduce((acc,p)=> acc + p.totalFinal, 0);
->>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728
 
   return (
     <div className="container py-4">
@@ -69,11 +59,7 @@ export default function AdminReportes(){
                       <tr key={p.id}>
                         <td>{new Date(p.fecha).toLocaleString()}</td>
                         <td>{p.userEmail}</td>
-<<<<<<< HEAD
                         <td>${(p.totalFinal || 0).toLocaleString()}</td>
-=======
-                        <td>${p.totalFinal.toLocaleString()}</td>
->>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728
                       </tr>
                     ))}
                   </tbody>
@@ -85,8 +71,4 @@ export default function AdminReportes(){
       </div>
     </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728
