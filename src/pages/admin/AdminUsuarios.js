@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useMemo, useState, useEffect } from 'react';
 import { UserService } from '../../services/UserService';
 
@@ -43,10 +44,36 @@ export default function AdminUsuarios(){
   };
 
   const edit = (u) => {
+=======
+import React, { useMemo, useState } from 'react';
+import { addUsuario, deleteUsuario, listUsuarios, updateUsuario } from '../../data/db';
+
+export default function AdminUsuarios(){
+  const [q,setQ] = useState('');
+  const [form,setForm] = useState({nombre:'', email:'', fechaNacimiento:''});
+  const [editId,setEditId] = useState(null);
+  const usuarios = listUsuarios();
+  const filtered = useMemo(()=> usuarios.filter(u=> !q || u.email.toLowerCase().includes(q.toLowerCase()) || (u.nombre||'').toLowerCase().includes(q.toLowerCase())), [usuarios,q]);
+
+  const submit = (e)=>{
+    e.preventDefault();
+    if(editId){
+      updateUsuario(editId, form);
+      setEditId(null);
+    }else{
+      addUsuario(form);
+    }
+    setForm({nombre:'', email:'', fechaNacimiento:''});
+    window.location.reload();
+  };
+
+  const edit = (u)=>{
+>>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728
     setEditId(u.id);
     setForm({ nombre:u.nombre||'', email:u.email||'', fechaNacimiento:u.fechaNacimiento||'' });
   };
 
+<<<<<<< HEAD
   const del = async (id) => {
     if(window.confirm('¿Eliminar usuario?')){
       try {
@@ -67,6 +94,8 @@ export default function AdminUsuarios(){
   if (loading) return <div className="container py-4">Cargando...</div>;
   if (error) return <div className="container py-4 alert alert-danger">{error}</div>;
 
+=======
+>>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728
   return (
     <div className="container py-4">
       <h2>Usuarios</h2>
@@ -107,7 +136,11 @@ export default function AdminUsuarios(){
                     <td>{u.fechaNacimiento||'-'}</td>
                     <td className="text-end">
                       <button className="btn btn-sm btn-outline-secondary me-2" onClick={()=>edit(u)}>Editar</button>
+<<<<<<< HEAD
                       <button className="btn btn-sm btn-outline-danger" onClick={()=>del(u.id)}>Eliminar</button>
+=======
+                      <button className="btn btn-sm btn-outline-danger" onClick={()=>{ if(window.confirm('¿Eliminar usuario?')) deleteUsuario(u.id); window.location.reload(); }}>Eliminar</button>
+>>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728
                     </td>
                   </tr>
                 ))}
@@ -118,4 +151,8 @@ export default function AdminUsuarios(){
       </div>
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+<<<<<<< HEAD
     "assert": "^2.1.0",
     "axios": "^1.13.2",
     "bootstrap": "^5.3.3",
@@ -11,10 +12,13 @@
     "crypto-browserify": "^3.12.1",
     "https-browserify": "^1.0.0",
     "process": "^0.11.10",
+=======
+>>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
     "react-scripts": "5.0.1",
+<<<<<<< HEAD
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "url": "^0.11.4",
@@ -25,6 +29,13 @@
     "jasmine": "^5.4.0",
     "npm-run-all": "^4.1.5",
     "react-app-rewired": "^2.2.1"
+=======
+    "bootstrap": "^5.3.3"
+  },
+  "devDependencies": {
+    "jasmine": "^5.4.0",
+    "npm-run-all": "^4.1.5"
+>>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728
   },
   "scripts": {
     "start": "react-scripts start",

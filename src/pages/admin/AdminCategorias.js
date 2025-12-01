@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { CategoryService } from '../../services/CategoryService';
 
@@ -63,10 +64,40 @@ export default function AdminCategorias() {
   if (loading) return <div className="container py-4">Cargando...</div>;
   if (error) return <div className="container py-4 alert alert-danger">{error}</div>;
 
+=======
+import React, { useState } from 'react';
+import { addCategoria, deleteCategoria, listCategorias, updateCategoria } from '../../data/db';
+
+export default function AdminCategorias(){
+  const [cats,setCats] = useState(listCategorias());
+  const [nombre,setNombre] = useState('');
+
+  const add = (e)=>{
+    e.preventDefault();
+    if(!nombre.trim()) return;
+    addCategoria({ nombre });
+    setNombre('');
+    setCats(listCategorias());
+  };
+  const rename = (id)=>{
+    const nuevo = window.prompt('Nuevo nombre:');
+    if(!nuevo) return;
+    updateCategoria(id, { nombre:nuevo });
+    setCats(listCategorias());
+  };
+  const del = (id)=>{
+    if(window.confirm('¿Eliminar categoría?')){
+      deleteCategoria(id);
+      setCats(listCategorias());
+    }
+  };
+
+>>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728
   return (
     <div className="container py-4">
       <h2>Categorías</h2>
       <form className="d-flex gap-2 mb-3" onSubmit={add}>
+<<<<<<< HEAD
         <input className="form-control" placeholder="Nueva categoría" value={nombre} onChange={e => setNombre(e.target.value)} />
         <button className="btn btn-accent">Agregar</button>
       </form>
@@ -77,10 +108,26 @@ export default function AdminCategorias() {
             <div className="d-flex gap-2">
               <button className="btn btn-sm btn-outline-secondary" onClick={() => rename(c.id)}>Renombrar</button>
               <button className="btn btn-sm btn-outline-danger" onClick={() => del(c.id)}>Eliminar</button>
+=======
+        <input className="form-control" placeholder="Nueva categoría" value={nombre} onChange={e=>setNombre(e.target.value)} />
+        <button className="btn btn-accent">Agregar</button>
+      </form>
+      <ul className="list-group">
+        {cats.map(c=>(
+          <li key={c.id} className="list-group-item d-flex justify-content-between align-items-center">
+            <span>{c.nombre}</span>
+            <div className="d-flex gap-2">
+              <button className="btn btn-sm btn-outline-secondary" onClick={()=>rename(c.id)}>Renombrar</button>
+              <button className="btn btn-sm btn-outline-danger" onClick={()=>del(c.id)}>Eliminar</button>
+>>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728
             </div>
           </li>
         ))}
       </ul>
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728

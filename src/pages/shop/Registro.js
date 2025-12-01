@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -133,3 +134,14 @@ export default function Register() {
     </div>
   );
 }
+=======
+import React from 'react';
+export default function Registro(){
+  return (
+    <div className="container py-4">
+      <h2>Registro</h2>
+      <p>Para este demo, usa la pantalla de <strong>Ingresar</strong> para simular usuarios (incluye fecha de nacimiento y/o correo @duoc.cl para descuentos).</p>
+    </div>
+  );
+}
+>>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728

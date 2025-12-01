@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+<<<<<<< HEAD
 import { AuthService } from '../services/AuthService';
 
 const USER_KEY = 'auth.user.v1';
@@ -105,9 +106,39 @@ export function AuthProvider({ children }) {
       isClient, // ← Nuevo
       loading
     }}>
+=======
+
+const KEY = 'auth.user.v1';
+const AuthContext = createContext();
+
+export function AuthProvider({children}){
+  const [user, setUser] = useState(null);
+
+  useEffect(()=>{
+    const raw = localStorage.getItem(KEY);
+    if(raw) setUser(JSON.parse(raw));
+  },[]);
+
+  useEffect(()=>{
+    if(user) localStorage.setItem(KEY, JSON.stringify(user));
+    else localStorage.removeItem(KEY);
+  },[user]);
+
+  const login = (payload)=>{ setUser(payload); };
+  const logout = ()=> setUser(null);
+
+  const isAdmin = !!(user?.email && user.email.toLowerCase().endsWith('@admin'));
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout, isAdmin }}>
+>>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728
       {children}
     </AuthContext.Provider>
   );
 }
 
+<<<<<<< HEAD
 export const useAuth = () => useContext(AuthContext);
+=======
+export const useAuth = ()=> useContext(AuthContext);
+>>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728

@@ -1,11 +1,18 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ProductService } from '../../services/ProductService';
 import { CategoryService } from '../../services/CategoryService';
+=======
+import React, { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { addProducto, getProducto, listCategorias, updateProducto } from '../../data/db';
+>>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728
 
 export default function AdminProductoForm(){
   const { id } = useParams();
   const editing = !!id;
+<<<<<<< HEAD
   const navigate = useNavigate();
 
   const [cats, setCats] = useState([]);
@@ -70,6 +77,32 @@ export default function AdminProductoForm(){
       
       {error && <div className="alert alert-danger">{error}</div>}
       
+=======
+  const nav = useNavigate();
+
+  const cats = listCategorias();
+  const existing = editing ? getProducto(id) : null;
+
+  const [form, setForm] = useState(existing || {
+    nombre:'', precio:0, stock:0, categoriaId: cats[0]?.id, tipo:'circular', tamano:'mediana', img:'', desc:'', oferta:false, destacado:false
+  });
+
+  if(editing && !existing) return <div className="container py-4"><p>Producto no encontrado.</p></div>;
+
+  const submit = (e)=>{
+    e.preventDefault();
+    if(editing){
+      updateProducto(id, form);
+    }else{
+      addProducto(form);
+    }
+    nav('/admin/productos');
+  };
+
+  return (
+    <div className="container py-4">
+      <h2>{editing ? 'Editar' : 'Nuevo'} producto</h2>
+>>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728
       <form className="row g-2" onSubmit={submit}>
         <div className="col-md-6">
           <label className="form-label">Nombre</label>
@@ -125,11 +158,19 @@ export default function AdminProductoForm(){
           </div>
         </div>
         <div className="col-12 mt-2">
+<<<<<<< HEAD
           <button className="btn btn-accent" disabled={loading}>
             {loading ? 'Guardando...' : (editing ? 'Guardar cambios' : 'Crear producto')}
           </button>
+=======
+          <button className="btn btn-accent">{editing ? 'Guardar cambios' : 'Crear producto'}</button>
+>>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728
         </div>
       </form>
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728

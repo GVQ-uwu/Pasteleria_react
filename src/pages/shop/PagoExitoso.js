@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // PagoExitoso.jsx
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -124,3 +125,14 @@ export default function PagoExitoso() {
     </div>
   );
 }
+=======
+import React from 'react';
+export default function PagoExitoso(){
+  return (
+    <div className="container py-5 text-center">
+      <h2>¡Pago realizado con éxito!</h2>
+      <p>Tu pedido está en preparación. Te notificaremos el estado.</p>
+    </div>
+  );
+}
+>>>>>>> eef3e7c3fdec327327be8f3590a0c85c2ca4c728
