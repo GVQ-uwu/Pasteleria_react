@@ -86,7 +86,7 @@ export default function Login() {
                     <strong>Admin:</strong> admin@admin.com / admin123
                   </p>
                   <p className="mb-0 small">
-                    <strong>Usuario:</strong> usuario@ejemplo.com / user123
+                    <strong>Usuario:</strong> user@user.com / user123
                   </p>
                 </div>
               </form>

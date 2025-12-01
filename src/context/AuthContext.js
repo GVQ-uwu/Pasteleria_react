@@ -41,28 +41,48 @@ export function AuthProvider({ children }) {
       setToken(authToken);
       return userData;
     } catch (error) {
-      throw new Error(error.response?.data || 'Error en el login');
+      throw new Error(error.response?.data?.message || error.response?.data || 'Error en el login');
     }
   };
 
   const register = async (userData) => {
     try {
-      const response = await AuthService.register(userData);
-      const { user: userData, token: authToken } = response.data;
+      // Log seguro - sin mostrar contraseñas
+      console.log('🔵 [AuthContext] Enviando registro:', { 
+        name: userData.name, 
+        email: userData.email,
+        password: '***', // Ocultar contraseña
+        confirmPassword: '***' // Ocultar confirmación
+      });
       
-      setUser(userData);
+      const response = await AuthService.register(userData);
+      console.log('🟢 [AuthContext] Registro exitoso');
+      
+      const { user: newUser, token: authToken } = response.data;
+      
+      setUser(newUser);
       setToken(authToken);
-      return userData;
+      return newUser;
     } catch (error) {
-      throw new Error(error.response?.data || 'Error en el registro');
+      console.error('🔴 [AuthContext] Error en registro:', error.response?.status, error.response?.data);
+      
+      if (error.response) {
+        const message = error.response.data?.message || 
+                      error.response.data?.error ||
+                      error.response.data ||
+                      `Error ${error.response.status}`;
+        throw new Error(message);
+      } else if (error.request) {
+        throw new Error('No se pudo conectar al servidor');
+      } else {
+        throw new Error(error.message || 'Error desconocido');
+      }
     }
   };
 
   const logout = () => {
     setUser(null);
     setToken(null);
-    // Opcional: llamar al servicio de logout
-    // AuthService.logout();
   };
 
   const isAdmin = user?.rol === 'admin';
