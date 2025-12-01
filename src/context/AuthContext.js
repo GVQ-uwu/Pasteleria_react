@@ -14,7 +14,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const savedUser = localStorage.getItem(USER_KEY);
     const savedToken = localStorage.getItem(TOKEN_KEY);
-    
+
     if (savedUser && savedToken) {
       setUser(JSON.parse(savedUser));
       setToken(savedToken);
@@ -32,45 +32,50 @@ export function AuthProvider({ children }) {
     }
   }, [user, token]);
 
+  // Al hacer login, guarda el token
   const login = async (email, password) => {
     try {
       const response = await AuthService.login(email, password);
-      const { user: userData, token: authToken } = response.data;
-      
-      setUser(userData);
-      setToken(authToken);
-      return userData;
+      const { user, token } = response.data;
+
+      setUser(user);
+      setToken(token);
+      localStorage.setItem(USER_KEY, JSON.stringify(user));
+      localStorage.setItem(TOKEN_KEY, token);
+
+      return user;
     } catch (error) {
-      throw new Error(error.response?.data?.message || error.response?.data || 'Error en el login');
+      console.error('🔴 [AuthContext] Error en login:', error);
+      throw error;
     }
   };
 
   const register = async (userData) => {
     try {
       // Log seguro - sin mostrar contraseñas
-      console.log('🔵 [AuthContext] Enviando registro:', { 
-        name: userData.name, 
+      console.log('🔵 [AuthContext] Enviando registro:', {
+        name: userData.name,
         email: userData.email,
         password: '***', // Ocultar contraseña
         confirmPassword: '***' // Ocultar confirmación
       });
-      
+
       const response = await AuthService.register(userData);
       console.log('🟢 [AuthContext] Registro exitoso');
-      
+
       const { user: newUser, token: authToken } = response.data;
-      
+
       setUser(newUser);
       setToken(authToken);
       return newUser;
     } catch (error) {
       console.error('🔴 [AuthContext] Error en registro:', error.response?.status, error.response?.data);
-      
+
       if (error.response) {
-        const message = error.response.data?.message || 
-                      error.response.data?.error ||
-                      error.response.data ||
-                      `Error ${error.response.status}`;
+        const message = error.response.data?.message ||
+          error.response.data?.error ||
+          error.response.data ||
+          `Error ${error.response.status}`;
         throw new Error(message);
       } else if (error.request) {
         throw new Error('No se pudo conectar al servidor');
@@ -85,16 +90,19 @@ export function AuthProvider({ children }) {
     setToken(null);
   };
 
-  const isAdmin = user?.rol === 'admin';
-
+  const isAdmin = user?.rol === 'ADMIN' || user?.rol === 'TEST';
+  const isTest = user?.rol === 'TEST';
+  const isClient = user?.rol === 'CLIENTE';
   return (
-    <AuthContext.Provider value={{ 
-      user, 
+    <AuthContext.Provider value={{
+      user,
       token,
-      login, 
+      login,
       register,
-      logout, 
+      logout,
       isAdmin,
+      isTest,  // ← Nuevo
+      isClient, // ← Nuevo
       loading
     }}>
       {children}

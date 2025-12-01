@@ -21,6 +21,7 @@ import Blog from './pages/shop/Blog';
 import Nosotros from './pages/shop/Nosotros';
 import Contacto from './pages/shop/Contacto';
 import Perfil from './pages/shop/Perfil';
+import ChangePass from './pages/shop/ChangePass'; // <-- Añade esta línea
 
 import AdminHome from './pages/admin/AdminHome';
 import AdminProductos from './pages/admin/AdminProductos';
@@ -50,6 +51,7 @@ export default function App(){
           <Route path="/nosotros" element={<Nosotros/>} />
           <Route path="/contacto" element={<Contacto/>} />
           <Route path="/perfil" element={<Perfil/>} />
+          <Route path="/cambiar-password" element={<ChangePass/>} /> {/* <-- Añade esta ruta */}
 
           <Route path="/admin" element={<ProtectedRoute admin><AdminHome/></ProtectedRoute>} />
           <Route path="/admin/productos" element={<ProtectedRoute admin><AdminProductos/></ProtectedRoute>} />
