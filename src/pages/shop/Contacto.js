@@ -341,7 +341,7 @@ export default function Contacto() {
                   style={{ border: 0, borderRadius: '8px' }}
                   allowFullScreen
                   loading="lazy"
-                  title="Ubicación de 1000 Sabores"
+                  title="Ubicación de 1000 Sabores."
                 ></iframe>
               </div>
             </div>
