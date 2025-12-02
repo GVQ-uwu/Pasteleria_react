@@ -21,8 +21,7 @@ import Blog from './pages/shop/Blog';
 import Nosotros from './pages/shop/Nosotros';
 import Contacto from './pages/shop/Contacto';
 import Perfil from './pages/shop/Perfil';
-import ChangePass from './pages/shop/ChangePass'; // <-- Añade esta línea
-
+import ChangePass from './pages/shop/ChangePass'; 
 import AdminHome from './pages/admin/AdminHome';
 import AdminProductos from './pages/admin/AdminProductos';
 import AdminProductoForm from './pages/admin/AdminProductoForm';
