@@ -30,14 +30,14 @@ Es fundamental tener la base de datos lista para que el Backend pueda operar.
 
 1.  **Acceder a phpMyAdmin:** Abre tu navegador y dirígete a `http://localhost/phpmyadmin/`.
 2.  **Crear la Base de Datos:**
-    * Crea una nueva base de datos con el nombre: `pasteleria`.
+    * Crea una nueva base de datos con el nombre: `pasteleria_sabores`.
 3.  **Importar el Esquema:**
-    * Ve a la pestaña **Importar** de la base de datos `pasteleria`.
-    * Selecciona el archivo SQL del proyecto (e.g., `pasteleria`) y ejecútalo para crear las tablas y datos iniciales.
+    * Ve a la pestaña **Importar** de la base de datos `pasteleria_sabores`.
+    * Selecciona el archivo SQL del proyecto (e.g., `pasteleria_sabores.sql`) y ejecútalo para crear las tablas y datos iniciales.
 
 ---
 
-### 3. 💻 Ejecución del Backend (Servidor API)
+### 3. 💻 Ejecución y Pruebas del Backend (Servidor API)
 
 El Backend debe ejecutarse primero para que el Frontend pueda consumir sus servicios.
 
@@ -61,6 +61,18 @@ El Backend debe ejecutarse primero para que el Frontend pueda consumir sus servi
 Una vez que el Backend esté corriendo, puedes acceder a la documentación de la API:
 * **URL:** `http://localhost:[Puerto-del-Backend]/api-docs`
     *(Reemplaza `[Puerto-del-Backend]` con el puerto real, ej: 3001)*
+
+#### 🧪 Pruebas de Endpoints (Postman)
+
+Para verificar que los endpoints de la API funcionan correctamente:
+
+1.  **Importar Colección:**
+    * Abre Postman.
+    * Importa la colección de endpoints del proyecto, ubicada en: `[ruta-a-tu-proyecto]/docs/Postman_Collection.json`.
+2.  **Ajustar Entorno:**
+    * Si la colección usa variables de entorno (como `{{baseURL}}`), asegúrate de que la variable apunte a la URL correcta del Backend (e.g., `http://localhost:3001`).
+3.  **Ejecutar Pruebas:**
+    * Ejecuta las solicitudes (`GET`, `POST`, etc.) dentro de la colección para asegurar la respuesta esperada de cada servicio.
 
 ---
 
