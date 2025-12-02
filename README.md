@@ -30,10 +30,10 @@ Es fundamental tener la base de datos lista para que el Backend pueda operar.
 
 1.  **Acceder a phpMyAdmin:** Abre tu navegador y dirígete a `http://localhost/phpmyadmin/`.
 2.  **Crear la Base de Datos:**
-    * Crea una nueva base de datos con el nombre: `pasteleria_sabores`.
+    * Crea una nueva base de datos con el nombre: **`pasteleria`**.
 3.  **Importar el Esquema:**
-    * Ve a la pestaña **Importar** de la base de datos `pasteleria_sabores`.
-    * Selecciona el archivo SQL del proyecto (e.g., `pasteleria_sabores.sql`) y ejecútalo para crear las tablas y datos iniciales.
+    * Ve a la pestaña **Importar** de la base de datos `pasteleria`.
+    * Selecciona el archivo SQL del proyecto (e.g., `pasteleria.sql` o similar) y ejecútalo para crear las tablas y datos iniciales.
 
 ---
 
