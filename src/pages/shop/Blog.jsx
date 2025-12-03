@@ -7,6 +7,7 @@ export default function Blog() {
 
     useEffect(() => {
         // Simulación de carga de posts
+        // HOLIWIS
         const mockPosts = [
             {
                 id: 1,
