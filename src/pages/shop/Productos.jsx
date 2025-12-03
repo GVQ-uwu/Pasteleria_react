@@ -20,29 +20,36 @@ export default function Productos() {
   }, []);
 
   const loadData = async () => {
-    try {
-      setLoading(true);
-      setError('');
+  try {
+    setLoading(true);
+    setError('');
 
-      // Cargar productos
-      const productsResponse = await ProductService.getProducts();
-      console.log('Productos cargados:', productsResponse);
+    // Cargar productos
+    const productsData = await ProductService.getProducts();
+    console.log('[Productos] productsData:', productsData);
 
-      const raw = productsResponse?.data ?? [];
-      const list = Array.isArray(raw) ? raw : (raw.content ?? []);
-      setProds(Array.isArray(list) ? list : []);
+    const list = Array.isArray(productsData)
+      ? productsData
+      : (productsData?.content ?? []);
 
-      // Cargar categorías
-      const categoriesResponse = await CategoryService.getCategories();
-      const rawCats = categoriesResponse?.data ?? [];
-      setCats(Array.isArray(rawCats) ? rawCats : []);
-    } catch (err) {
-      console.error('Error loading data:', err);
-      setError('Error al cargar productos');
-    } finally {
-      setLoading(false);
-    }
-  };
+    setProds(Array.isArray(list) ? list : []);
+
+    // Cargar categorías
+    const categoriesData = await CategoryService.getCategories();
+    console.log('[Productos] categoriesData:', categoriesData);
+
+    const catsList = Array.isArray(categoriesData)
+      ? categoriesData
+      : (categoriesData?.content ?? []);
+
+    setCats(Array.isArray(catsList) ? catsList : []);
+  } catch (err) {
+    console.error('[Productos] error cargando datos:', err);
+    setError('Error al cargar productos');
+  } finally {
+    setLoading(false);
+  }
+};
 
   const filtered = useMemo(() => {
     if (!Array.isArray(prods)) return [];
