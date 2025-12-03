@@ -4,15 +4,15 @@ import { ProductService } from '../../services/ProductService';
 import { CategoryService } from '../../services/CategoryService';
 import { useCart } from '../../context/CartContext';
 
-export default function Productos(){
+export default function Productos() {
   const [q, setQ] = useState('');
   const [cat, setCat] = useState('');
   const [tipo, setTipo] = useState('');
-  const [prods, setProds] = useState([]); // ← Inicializar como array vacío
+  const [prods, setProds] = useState([]); // array vacío
   const [cats, setCats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
+
   const { add } = useCart();
 
   useEffect(() => {
@@ -21,36 +21,42 @@ export default function Productos(){
 
   const loadData = async () => {
     try {
+      setLoading(true);
+      setError('');
+
       // Cargar productos
       const productsResponse = await ProductService.getProducts();
-      console.log('Productos cargados:', productsResponse); // Para debug
-      
-      // Asegurarnos de que sea un array
-      setProds(Array.isArray(productsResponse.data) ? productsResponse.data : []);
-      
+      console.log('Productos cargados:', productsResponse);
+
+      const raw = productsResponse?.data ?? [];
+      const list = Array.isArray(raw) ? raw : (raw.content ?? []);
+      setProds(Array.isArray(list) ? list : []);
+
       // Cargar categorías
       const categoriesResponse = await CategoryService.getCategories();
-      setCats(Array.isArray(categoriesResponse.data) ? categoriesResponse.data : []);
+      const rawCats = categoriesResponse?.data ?? [];
+      setCats(Array.isArray(rawCats) ? rawCats : []);
     } catch (err) {
-      setError('Error al cargar productos');
       console.error('Error loading data:', err);
+      setError('Error al cargar productos');
     } finally {
       setLoading(false);
     }
   };
 
   const filtered = useMemo(() => {
-    // Asegurarse de que prods sea un array antes de filtrar
     if (!Array.isArray(prods)) return [];
+
     return prods.filter(p => {
-      if (!p) return false; // Filtrar elementos null/undefined
+      if (!p) return false;
       if (q && !p.nombre?.toLowerCase().includes(q.toLowerCase())) return false;
-      if (cat && p.categoriaId !== cat) return false;
+      if (cat && String(p.categoriaId) !== String(cat)) return false;
       if (tipo && p.tipo !== tipo) return false;
       return true;
     });
   }, [q, cat, tipo, prods]);
 
+  // ----- ESTADOS ESPECIALES -----
   if (loading) {
     return (
       <div className="container py-4 text-center">
@@ -61,6 +67,7 @@ export default function Productos(){
       </div>
     );
   }
+
   if (error) {
     return (
       <div className="container py-4">
@@ -73,4 +80,98 @@ export default function Productos(){
       </div>
     );
   }
+
+  // ----- RENDER NORMAL -----
+  return (
+    <div className="container py-4">
+      <h2>Productos</h2>
+
+      <div className="row g-2 mb-3">
+        <div className="col-12 col-md-4">
+          <input
+            className="form-control"
+            placeholder="Buscar..."
+            value={q}
+            onChange={e => setQ(e.target.value)}
+          />
+        </div>
+        <div className="col-6 col-md-4">
+          <select
+            className="form-select"
+            value={cat}
+            onChange={e => setCat(e.target.value)}
+          >
+            <option value="">Todas las categorías</option>
+            {cats.map(c => (
+              <option key={c.id} value={c.id}>
+                {c.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-6 col-md-4">
+          <select
+            className="form-select"
+            value={tipo}
+            onChange={e => setTipo(e.target.value)}
+          >
+            <option value="">Cualquier tipo</option>
+            <option value="cuadrada">Torta Cuadrada</option>
+            <option value="circular">Torta Circular</option>
+            <option value="individual">Individual</option>
+            <option value="unit">Unitario</option>
+            <option value="personalizada">Personalizada</option>
+          </select>
+        </div>
+      </div>
+
+      {filtered.length === 0 ? (
+        <div className="alert alert-info">
+          {prods.length === 0
+            ? 'No hay productos disponibles.'
+            : 'No se encontraron productos con los filtros seleccionados.'}
+        </div>
+      ) : (
+        <div className="row g-3">
+          {filtered.map(p => (
+            <div key={p.id} className="col-12 col-sm-6 col-lg-4">
+              <div className="card card-product h-100 p-2">
+                <img
+                  src={p.imagenUrl || p.imagen || '/placeholder-image.jpg'}
+                  alt={p.nombre}
+                  style={{ height: '200px', objectFit: 'cover' }}
+                  onError={e => { e.target.src = '/placeholder-image.jpg'; }}
+                />
+                <div className="p-2 pt-3">
+                  <h5>{p.nombre || 'Producto sin nombre'}</h5>
+                  <div className="d-flex gap-2 align-items-center mb-2">
+                    <strong>${(p.precio ?? 0).toLocaleString()}</strong>
+                    {p.stock <= 5 ? (
+                      <span className="badge bg-danger">Stock crítico</span>
+                    ) : (
+                      <span className="badge bg-success">Stock OK</span>
+                    )}
+                  </div>
+                  <div className="d-flex gap-2">
+                    <button
+                      className="btn btn-sm btn-accent"
+                      onClick={() => add(p, 1)}
+                    >
+                      Agregar
+                    </button>
+                    <Link
+                      className="btn btn-sm btn-outline-secondary"
+                      to={`/producto/${p.id}`}
+                    >
+                      Ver detalle
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
