@@ -5,7 +5,7 @@ export default function Nosotros() {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
-  
+
   const secciones = [
     { id: "historia", texto: "Nuestra historia" },
     { id: "equipo", texto: "Nuestro equipo" },
@@ -14,73 +14,65 @@ export default function Nosotros() {
   ];
 
   return (
-    <section
-      className="container fade-in"
-      style={{
-        marginTop: 50,
-        textAlign: "center",
-        animation: "fadeIn 1s ease-in-out",
-      }}
-    >
-      <h1 className="auth-title" style={{ fontSize: "2.2rem", marginBottom: 20 }}>
-        Sobre Nosotros
-      </h1>
-      <p style={{ maxWidth: 750, margin: "0 auto 40px", color: "#555" }}>
-        En <strong>Pastelería Sabores</strong> creemos que cada bocado puede contar una historia.
-        Desde nuestros inicios familiares en 2023, trabajamos para llevar dulzura, tradición y
-        calidad a cada mesa.
-      </p>
+    <section className="container py-5">
+      {/* TÍTULO + INTRO */}
+      <div className="text-center mb-4">
+        <h1 className="auth-title" style={{ fontSize: "2.2rem" }}>
+          Sobre Nosotros
+        </h1>
+        <p
+          style={{
+            maxWidth: 750,
+            margin: "0 auto",
+            color: "#555",
+          }}
+        >
+          En <strong>Pastelería Sabores</strong> creemos que cada bocado puede
+          contar una historia. Desde nuestros inicios familiares en 2023,
+          trabajamos para llevar dulzura, tradición y calidad a cada mesa.
+        </p>
+      </div>
 
-      {/* Mini Navbar */}
-      <nav
-        className="mini-nav card"
-        style={{
-          margin: "0 auto 40px",
-          maxWidth: 700,
-          display: "flex",
-          justifyContent: "center",
-          gap: 10,
-          flexWrap: "wrap",
-          backgroundColor: "#fff7f9",
-          border: "1px solid #f2c4ce",
-        }}
-      >
-        {secciones.map((s) => (
-          <button
-            key={s.id}
-            className="mini-link"
-            onClick={() => go(s.id)}
-            style={{
-              border: "none",
-              background: "transparent",
-              cursor: "pointer",
-              padding: "10px 18px",
-              fontWeight: "600",
-              color: "#b94b67",
-              transition: "all 0.2s ease",
-            }}
-            onMouseEnter={(e) => (e.target.style.color = "#ff5c8a")}
-            onMouseLeave={(e) => (e.target.style.color = "#b94b67")}
-          >
-            {s.texto}
-          </button>
-        ))}
+      {/* MINI NAVBAR (CENTRADA) */}
+      <nav className="card shadow-sm mx-auto mb-5" style={{ maxWidth: 700 }}>
+        <div className="d-flex flex-wrap justify-content-center gap-2 p-2">
+          {secciones.map((s) => (
+            <button
+              key={s.id}
+              type="button"
+              className="btn btn-sm"
+              style={{
+                borderRadius: 999,
+                backgroundColor: "#ffe0ea",
+                color: "#b94b67",
+                fontWeight: 600,
+                border: "none",
+              }}
+              onClick={() => go(s.id)}
+            >
+              {s.texto}
+            </button>
+          ))}
+        </div>
       </nav>
 
       {/* HISTORIA */}
-      <article id="historia" className="info-block" style={{ marginBottom: 60 }}>
-        <h2 className="title">Nuestra historia</h2>
-        <p className="desc" style={{ maxWidth: 850, margin: "0 auto 25px" }}>
-          Nacimos como un pequeño emprendimiento familiar con la misión de rescatar recetas caseras
-          y darles un toque moderno. Hoy elaboramos tortas, cheesecakes y postres artesanales con
-          ingredientes frescos, ofreciendo también opciones <strong>sin azúcar</strong>,{" "}
-          <strong>sin gluten</strong> y <strong>veganas</strong>.
-        </p>
+      <article id="historia" className="mb-5">
+        <div className="text-center mb-3">
+          <h2 className="title">Nuestra historia</h2>
+          <p
+            className="desc"
+            style={{ maxWidth: 850, margin: "0 auto", color: "#555" }}
+          >
+            Nacimos como un pequeño emprendimiento familiar con la misión de
+            rescatar recetas caseras y darles un toque moderno. Hoy elaboramos
+            tortas, cheesecakes y postres artesanales con ingredientes frescos,
+            ofreciendo también opciones <strong>sin azúcar</strong>,{" "}
+            <strong>sin gluten</strong> y <strong>veganas</strong>.
+          </p>
+        </div>
 
-        <div
-          className="grid grid-2"
-          style={{ marginTop: 20, justifyItems: "center", gap: 20 }}
-        >
+        <div className="row g-4 justify-content-center mt-2">
           {[
             {
               titulo: "Compromiso con lo local",
@@ -91,36 +83,32 @@ export default function Nosotros() {
               desc: "Cada producto cuenta con ficha técnica y control de temperatura.",
             },
           ].map((card) => (
-            <div
-              key={card.titulo}
-              className="card"
-              style={{
-                maxWidth: 350,
-                boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-                borderRadius: 12,
-                padding: 20,
-              }}
-            >
-              <h3 style={{ color: "#b94b67" }}>{card.titulo}</h3>
-              <p className="desc" style={{ color: "#555" }}>
-                {card.desc}
-              </p>
+            <div key={card.titulo} className="col-md-6 col-lg-5">
+              <div className="card h-100 shadow-sm rounded-3 p-3">
+                <h3 style={{ color: "#b94b67" }}>{card.titulo}</h3>
+                <p className="desc" style={{ color: "#555" }}>
+                  {card.desc}
+                </p>
+              </div>
             </div>
           ))}
         </div>
       </article>
 
       {/* EQUIPO */}
-      <article id="equipo" className="info-block" style={{ marginBottom: 60 }}>
-        <h2 className="title">Nuestro equipo</h2>
-        <p className="desc" style={{ maxWidth: 700, margin: "0 auto 30px" }}>
-          Un grupo de personas apasionadas que comparten el amor por la repostería artesanal.
-        </p>
+      <article id="equipo" className="mb-5">
+        <div className="text-center mb-3">
+          <h2 className="title">Nuestro equipo</h2>
+          <p
+            className="desc"
+            style={{ maxWidth: 700, margin: "0 auto", color: "#555" }}
+          >
+            Un grupo de personas apasionadas que comparten el amor por la
+            repostería artesanal.
+          </p>
+        </div>
 
-        <div
-          className="grid grid-3"
-          style={{ justifyItems: "center", gap: 20, flexWrap: "wrap" }}
-        >
+        <div className="row g-4 justify-content-center">
           {[
             {
               nombre: "Valentina R.",
@@ -141,43 +129,42 @@ export default function Nosotros() {
               foto: "https://i.pinimg.com/736x/93/05/85/9305859c3e4ee4e2b441e9b694b925a1.jpg",
             },
           ].map((p) => (
-            <div
-              key={p.nombre}
-              className="product-card"
-              style={{
-                maxWidth: 300,
-                boxShadow: "0 5px 10px rgba(0,0,0,0.1)",
-                borderRadius: 12,
-                overflow: "hidden",
-                backgroundColor: "#fff",
-                transition: "transform 0.2s",
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.03)")}
-              onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
-            >
-              <img
-                src={p.foto}
-                alt={p.nombre}
-                style={{ width: "100%", height: 180, objectFit: "cover" }}
-              />
-              <div style={{ padding: 15 }}>
-                <h3 style={{ color: "#b94b67", marginBottom: 6 }}>{p.nombre}</h3>
-                <p className="desc" style={{ fontSize: 14, color: "#555" }}>
-                  {p.cargo}
-                </p>
-                <span
-                  style={{
-                    backgroundColor: "#ffe0ea",
-                    color: "#b94b67",
-                    fontSize: 12,
-                    padding: "4px 8px",
-                    borderRadius: 8,
-                    display: "inline-block",
-                    marginTop: 8,
-                  }}
-                >
-                  {p.etiqueta}
-                </span>
+            <div key={p.nombre} className="col-sm-6 col-lg-4">
+              <div
+                className="card h-100 shadow-sm border-0 rounded-3 overflow-hidden"
+                style={{ transition: "transform 0.2s" }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.transform = "scale(1.02)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.transform = "scale(1)")
+                }
+              >
+                <img
+                  src={p.foto}
+                  alt={p.nombre}
+                  style={{ width: "100%", height: 190, objectFit: "cover" }}
+                />
+                <div className="p-3">
+                  <h3 style={{ color: "#b94b67", fontSize: "1.1rem" }}>
+                    {p.nombre}
+                  </h3>
+                  <p className="desc" style={{ fontSize: 14, color: "#555" }}>
+                    {p.cargo}
+                  </p>
+                  <span
+                    style={{
+                      backgroundColor: "#ffe0ea",
+                      color: "#b94b67",
+                      fontSize: 12,
+                      padding: "4px 8px",
+                      borderRadius: 8,
+                      display: "inline-block",
+                    }}
+                  >
+                    {p.etiqueta}
+                  </span>
+                </div>
               </div>
             </div>
           ))}
@@ -185,12 +172,19 @@ export default function Nosotros() {
       </article>
 
       {/* MISIÓN */}
-      <article id="mision" className="info-block" style={{ marginBottom: 60 }}>
-        <h2 className="title">Misión</h2>
-        <p className="desc" style={{ maxWidth: 700, margin: "0 auto 25px" }}>
-          Elaborar productos de pastelería artesanal deliciosos, seguros y accesibles, priorizando
-          ingredientes frescos, calidad y cercanía con nuestros clientes.
-        </p>
+      <article id="mision" className="mb-5">
+        <div className="text-center mb-3">
+          <h2 className="title">Misión</h2>
+          <p
+            className="desc"
+            style={{ maxWidth: 700, margin: "0 auto 15px", color: "#555" }}
+          >
+            Elaborar productos de pastelería artesanal deliciosos, seguros y
+            accesibles, priorizando ingredientes frescos, calidad y cercanía con
+            nuestros clientes.
+          </p>
+        </div>
+
         <ul
           style={{
             listStyle: "none",
@@ -198,6 +192,7 @@ export default function Nosotros() {
             margin: "0 auto",
             textAlign: "left",
             maxWidth: 450,
+            color: "#555",
           }}
         >
           <li>🍓 Producción diaria con control de frescura.</li>
@@ -207,57 +202,65 @@ export default function Nosotros() {
       </article>
 
       {/* VALORES */}
-      <article id="valores" className="info-block" style={{ marginBottom: 60 }}>
-        <h2 className="title">Valores</h2>
-        <div
-          className="grid grid-2"
-          style={{ justifyItems: "center", marginTop: 20, gap: 20 }}
-        >
+      <article id="valores" className="mb-5">
+        <div className="text-center mb-3">
+          <h2 className="title">Valores</h2>
+        </div>
+
+        <div className="row g-4 justify-content-center">
           {[
-            { titulo: "Calidad", texto: "Materias primas seleccionadas y procesos cuidados." },
-            { titulo: "Seguridad", texto: "Buenas prácticas de manufactura y trazabilidad total." },
-            { titulo: "Inclusión", texto: "Opciones aptas para todo tipo de dietas y estilos de vida." },
-            { titulo: "Sustentabilidad", texto: "Reducción de desperdicios y embalajes reciclables." },
+            {
+              titulo: "Calidad",
+              texto: "Materias primas seleccionadas y procesos cuidados.",
+            },
+            {
+              titulo: "Seguridad",
+              texto: "Buenas prácticas de manufactura y trazabilidad total.",
+            },
+            {
+              titulo: "Inclusión",
+              texto:
+                "Opciones aptas para todo tipo de dietas y estilos de vida.",
+            },
+            {
+              titulo: "Sustentabilidad",
+              texto:
+                "Reducción de desperdicios y embalajes reciclables.",
+            },
           ].map((v) => (
-            <div
-              key={v.titulo}
-              className="card"
-              style={{
-                maxWidth: 330,
-                borderRadius: 12,
-                padding: 20,
-                backgroundColor: "#fff7f9",
-                boxShadow: "0 3px 6px rgba(0,0,0,0.08)",
-              }}
-            >
-              <h3 style={{ color: "#b94b67" }}>{v.titulo}</h3>
-              <p className="desc" style={{ color: "#555" }}>
-                {v.texto}
-              </p>
+            <div key={v.titulo} className="col-md-6 col-lg-5">
+              <div
+                className="card h-100 shadow-sm rounded-3 p-3"
+                style={{ backgroundColor: "#fff7f9" }}
+              >
+                <h3 style={{ color: "#b94b67" }}>{v.titulo}</h3>
+                <p className="desc" style={{ color: "#555" }}>
+                  {v.texto}
+                </p>
+              </div>
             </div>
           ))}
         </div>
       </article>
 
-      <div
-        className="hero"
-        style={{
-          marginTop: 40,
-          maxWidth: 800,
-          marginInline: "auto",
-          padding: 30,
-          backgroundColor: "#fff7f9",
-          borderRadius: 16,
-          boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
-        }}
-      >
-        <span className="kicker" style={{ color: "#b94b67", fontWeight: "bold" }}>
-          Hecho con amor 🍰
-        </span>
-        <p style={{ marginTop: 10, color: "#555" }}>
-          ¿Quieres saber más o colaborar con nuestra pastelería? Visita la sección{" "}
-          <strong>Contacto</strong>. ¡Estaremos felices de conversar contigo!
-        </p>
+      {/* BLOQUE FINAL */}
+      <div className="mx-auto mt-4 mb-3" style={{ maxWidth: 800 }}>
+        <div
+          className="p-4 rounded-4 shadow-sm"
+          style={{ backgroundColor: "#fff7f9" }}
+        >
+          <span
+            className="d-inline-block mb-2"
+            style={{ color: "#b94b67", fontWeight: "bold" }}
+          >
+            Hecho con amor 🍰
+          </span>
+          <p style={{ color: "#555", margin: 0 }}>
+            ¿Quieres saber más o colaborar con nuestra pastelería? Visita la
+            sección <strong>Contacto</strong>. ¡Estaremos felices de conversar
+            contigo!
+          </p>
+        </div>
       </div>
     </section>
   );
