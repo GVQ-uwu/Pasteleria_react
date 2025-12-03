@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { ProductService } from '../../services/ProductService'; // Asegúrate de importar
+import { ProductService } from '../../services/ProductService';
 
 export default function ProductoDetalle() {
   const { id } = useParams();
@@ -10,9 +10,8 @@ export default function ProductoDetalle() {
   useEffect(() => {
     const fetchProducto = async () => {
       try {
-        // CORRECCIÓN: Usa ProductService en lugar de getProducto
-        const res = await ProductService.getProductById(id);
-        setProducto(res.data);
+        const data = await ProductService.getProductById(id); // <- ya viene data
+        setProducto(data);
       } catch (error) {
         console.error('Error al cargar el producto:', error);
       } finally {
@@ -22,14 +21,14 @@ export default function ProductoDetalle() {
     fetchProducto();
   }, [id]);
 
-  if (cargando) return <div>Cargando...</div>;
+  if (loading) return <div>Cargando...</div>;          // <- antes decía "cargando"
   if (!producto) return <div>Producto no encontrado</div>;
 
   return (
     <div className="producto-detalle">
-      <img 
-        src={`http://localhost:3000/uploads/${producto.imagen}`} 
-        alt={producto.nombre} 
+      <img
+        src={`http://localhost:3000/uploads/${producto.imagen}`}
+        alt={producto.nombre}
       />
       <h1>{producto.nombre}</h1>
       <p>{producto.descripcion}</p>
@@ -37,4 +36,5 @@ export default function ProductoDetalle() {
       <p>Categoría: {producto.categoria}</p>
     </div>
   );
-};
+}
+
