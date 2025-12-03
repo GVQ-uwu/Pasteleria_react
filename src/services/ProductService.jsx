@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080/api'; // Ajusta la URL base según tu backend
+const API_BASE_URL = 'http://localhost:8080/api';
 
 // Crear una instancia de axios para reutilizar configuración
 const apiClient = axios.create({
@@ -19,9 +19,7 @@ apiClient.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 export const ProductService = {
@@ -52,6 +50,13 @@ export const ProductService = {
   // Eliminar un producto (solo admin)
   deleteProduct: async (id) => {
     const response = await apiClient.delete(`/productos/${id}`);
+    return response.data;
+  },
+
+  // ✅ NUEVO: productos por categoría
+  getProductsByCategory: async (categoryId) => {
+    // Ajusta la URL si en tu backend se llama distinto
+    const response = await apiClient.get(`/productos/categoria/${categoryId}`);
     return response.data;
   },
 };
