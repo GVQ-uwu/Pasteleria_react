@@ -50,7 +50,7 @@ export default function App(){
           <Route path="/nosotros" element={<Nosotros/>} />
           <Route path="/contacto" element={<Contacto/>} />
           <Route path="/perfil" element={<Perfil/>} />
-          <Route path="/cambiar-password" element={<ChangePass/>} /> {/* <-- Añade esta ruta */}
+          <Route path="/cambiar-password" element={<ChangePass/>} /> 
 
           <Route path="/admin" element={<ProtectedRoute admin><AdminHome/></ProtectedRoute>} />
           <Route path="/admin/productos" element={<ProtectedRoute admin><AdminProductos/></ProtectedRoute>} />
