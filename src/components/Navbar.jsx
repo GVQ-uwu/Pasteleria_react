@@ -5,12 +5,12 @@ import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 
-export default function Navbar(){
+export default function Navbar() {
   const { user, logout, isAdmin, isTest, isClient } = useAuth();
   const { items } = useCart();
   const navigate = useNavigate();
   const location = useLocation();
-  const count = items.reduce((a,b)=>a+b.qty,0);
+  const count = items.reduce((a, b) => a + b.qty, 0);
 
   // Función mejorada para logout
   const handleLogout = (e) => {
@@ -37,11 +37,11 @@ export default function Navbar(){
           1000 Sabores
           {isInAdminPanel && <span className="badge bg-danger ms-1">ADMIN</span>}
         </Link>
-        
+
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
-        
+
         <div className="collapse navbar-collapse" id="nav">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             {/* Para ADMIN PURO: solo mostrar enlace Admin */}
@@ -62,7 +62,7 @@ export default function Navbar(){
                 <li className="nav-item"><NavLink className="nav-link" to="/categorias">Categorías</NavLink></li>
                 <li className="nav-item"><NavLink className="nav-link" to="/ofertas">Ofertas</NavLink></li>
                 <li className="nav-item"><NavLink className="nav-link" to="/blog">Blog</NavLink></li>
-                
+
                 {/* Enlace de admin con badge TEST */}
                 <li className="nav-item">
                   <NavLink className="nav-link" to="/admin">
@@ -98,17 +98,18 @@ export default function Navbar(){
               </>
             )}
           </ul>
-          
+
           <ul className="navbar-nav ms-auto">
-            {/* Mostrar carrito para CLIENTE y TEST, pero NO para ADMIN puro */}
-            {(isClient || isTest) && (
+            {/* Mostrar carrito para cualquier usuario que NO sea ADMIN puro */}
+            {(!isAdmin) && (
               <li className="nav-item">
                 <NavLink className="nav-link" to="/carrito">
                   🛒 Carrito ({count})
                 </NavLink>
               </li>
             )}
-            
+
+
             {user ? (
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#!" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -123,16 +124,16 @@ export default function Navbar(){
                       {isClient && !isTest && <span className="badge bg-success ms-2">CLIENTE</span>}
                     </span>
                   </li>
-                  <li><hr className="dropdown-divider"/></li>
+                  <li><hr className="dropdown-divider" /></li>
                   <li><Link className="dropdown-item" to="/perfil">Mi Perfil</Link></li>
                   <li><Link className="dropdown-item" to="/mis-pedidos">Mis Pedidos</Link></li>
                   {(isAdmin || isTest) && (
                     <li><Link className="dropdown-item" to="/admin">Panel Administrativo</Link></li>
                   )}
-                  <li><hr className="dropdown-divider"/></li>
+                  <li><hr className="dropdown-divider" /></li>
                   <li>
-                    <button 
-                      className="dropdown-item text-danger" 
+                    <button
+                      className="dropdown-item text-danger"
                       onClick={handleLogout}
                     >
                       Cerrar Sesión

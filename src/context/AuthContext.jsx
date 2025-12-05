@@ -11,6 +11,7 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Persitencia en localStorage
   useEffect(() => {
     const savedUser = localStorage.getItem(USER_KEY);
     const savedToken = localStorage.getItem(TOKEN_KEY);
