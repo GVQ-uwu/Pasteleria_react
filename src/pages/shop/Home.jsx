@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ProductService } from '../../services/ProductService';
+import ProductImage from '../../components/ProductImage';
+
 export default function Home() {
   const [destacados, setDestacados] = useState([]);
   const [ofertas, setOfertas] = useState([]);
@@ -14,15 +16,15 @@ export default function Home() {
   const loadProductosDestacados = async () => {
     try {
       const productos = await ProductService.getProducts();
-      
+
       // Filtrar productos destacados (ejemplo: los primeros 4)
       const destacadosFiltrados = productos.filter(p => p.destacado).slice(0, 4);
       setDestacados(destacadosFiltrados);
-      
+
       // Filtrar ofertas (ejemplo: productos con descuento)
       const ofertasFiltradas = productos.filter(p => p.oferta).slice(0, 6);
       setOfertas(ofertasFiltradas);
-      
+
     } catch (err) {
       setError('Error al cargar productos');
       console.error(err);
@@ -54,8 +56,10 @@ export default function Home() {
             destacados.map(producto => (
               <div key={producto.id} className="col-md-3">
                 <div className="card h-100">
-                  <img src={producto.img} className="card-img-top" alt={producto.nombre} style={{height: '180px', objectFit: 'cover'}} />
-                  <div className="card-body">
+                  <ProductImage 
+                  producto={producto} 
+                  style={{height: '200px', objectFit: 'cover'}}/>
+                  <div className="card-body d-flex flex-column">
                     <h5 className="card-title">{producto.nombre}</h5>
                     <p className="card-text">{producto.descripcion?.substring(0, 80)}...</p>
                     <div className="d-flex justify-content-between align-items-center">
@@ -88,7 +92,9 @@ export default function Home() {
                   <div className="card-header bg-danger text-white text-center py-1">
                     <small>OFERTA</small>
                   </div>
-                  <img src={producto.img} className="card-img-top" alt={producto.nombre} style={{height: '120px', objectFit: 'cover'}} />
+                  <ProductImage 
+                  producto={producto} 
+                  style={{height: '200px', objectFit: 'cover'}}/>
                   <div className="card-body text-center p-2">
                     <h6 className="card-title mb-1">{producto.nombre}</h6>
                     <div className="d-flex justify-content-center gap-2">
