@@ -20,7 +20,7 @@ export default function Perfil() {
     const [loadingPedidos, setLoadingPedidos] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-    
+
     const navigate = useNavigate();
     const { user: authUser, token, logout } = useAuth();
 
@@ -29,15 +29,15 @@ export default function Perfil() {
         const loadUserProfile = async () => {
             try {
                 setLoading(true);
-                
+
                 // Verificar si hay usuario autenticado
                 if (!authUser) {
                     navigate('/login');
                     return;
                 }
-                
+
                 console.log('🔵 Cargando perfil para usuario:', authUser.email);
-                
+
                 // Primero usar datos del contexto de autenticación
                 setUser(authUser);
                 setFormData({
@@ -47,7 +47,7 @@ export default function Perfil() {
                     direccion: authUser.direccion || '',
                     fechaNacimiento: authUser.fechaNacimiento || ''
                 });
-                
+
                 // Luego intentar obtener datos actualizados del backend
                 try {
                     const response = await UserService.getProfile();
@@ -66,7 +66,7 @@ export default function Perfil() {
                     console.warn('⚠️ No se pudo obtener perfil del backend:', apiError);
                     // Continuamos con datos del contexto
                 }
-                
+
             } catch (error) {
                 console.error('❌ Error al cargar perfil:', error);
                 setError('Error al cargar el perfil');
@@ -88,42 +88,11 @@ export default function Perfil() {
     const fetchPedidos = async () => {
         try {
             setLoadingPedidos(true);
-            // Aquí deberías llamar a tu servicio de pedidos
-            // Ejemplo: const response = await PedidoService.getPedidosByUsuario(user.id);
-            // Simulamos datos por ahora
-            const mockPedidos = [
-                {
-                    id: 'ORD-001',
-                    fecha: '2024-03-15',
-                    estado: 'entregado',
-                    items: [
-                        { id: 1, nombre: 'Torta Chocolate', cantidad: 1, precio: 25000, imagenUrl: '/uploads/torta-chocolate.jpg' },
-                        { id: 2, nombre: 'Cupcakes Vainilla', cantidad: 6, precio: 12000, imagenUrl: '/uploads/cupcakes.jpg' }
-                    ],
-                    subtotal: 37000,
-                    envio: 3000,
-                    descuento: 0,
-                    total: 40000,
-                    direccion: 'Av. Principal 123, Santiago'
-                },
-                {
-                    id: 'ORD-002',
-                    fecha: '2024-03-10',
-                    estado: 'enviado',
-                    items: [
-                        { id: 3, nombre: 'Cheesecake Frutos Rojos', cantidad: 1, precio: 18000, imagenUrl: '/uploads/cheesecake.jpg' }
-                    ],
-                    subtotal: 18000,
-                    envio: 0,
-                    descuento: 1800,
-                    total: 16200,
-                    direccion: 'Calle Secundaria 456, Santiago'
-                }
-            ];
-            setPedidos(mockPedidos);
+            const data = await PedidoService.misPedidos(token);
+            setPedidos(data);
         } catch (error) {
-            console.error('Error al cargar pedidos:', error);
-            setError('Error al cargar los pedidos');
+            console.error("Error al cargar pedidos:", error);
+            setError("Error al cargar los pedidos");
         } finally {
             setLoadingPedidos(false);
         }
@@ -141,26 +110,26 @@ export default function Perfil() {
         e.preventDefault();
         setError('');
         setSuccess('');
-        
+
         try {
             console.log('🔵 Actualizando perfil...', formData);
-            
+
             const updateData = {
                 nombre: formData.nombre,
                 telefono: formData.telefono,
                 direccion: formData.direccion,
                 fechaNacimiento: formData.fechaNacimiento
             };
-            
+
             const response = await UserService.updateProfile(updateData);
-            
+
             console.log('✅ Perfil actualizado:', response);
-            
+
             if (response) {
                 setUser(response);
                 setSuccess('✅ Perfil actualizado correctamente');
                 setIsEditing(false);
-                
+
                 setTimeout(() => setSuccess(''), 3000);
             } else {
                 setError('Error al actualizar el perfil');
@@ -227,10 +196,10 @@ export default function Perfil() {
         );
     }
 
-    const userRole = user.rol || 'cliente';
-    const isAdmin = userRole === 'admin';
-    const userEstado = user.estado || 'activo';
-    const isActive = userEstado === 'activo';
+    const isAdmin = userRole?.toUpperCase() === 'ADMIN';
+    const isTester = userRole?.toUpperCase() === 'TEST';
+    const isClient = userRole?.toUpperCase() === 'USER';
+
 
     return (
         <div className="container mt-4">
@@ -271,7 +240,7 @@ export default function Perfil() {
                                     </div>
                                 </div>
                                 <div className="col-auto">
-                                    <button 
+                                    <button
                                         className="btn btn-outline-danger"
                                         onClick={handleLogout}
                                     >
@@ -293,7 +262,7 @@ export default function Perfil() {
                     <button type="button" className="btn-close" onClick={() => setError('')}></button>
                 </div>
             )}
-            
+
             {success && (
                 <div className="alert alert-success alert-dismissible fade show" role="alert">
                     <i className="bi bi-check-circle me-2"></i>
@@ -308,7 +277,7 @@ export default function Perfil() {
                     <div className="card border-0 shadow-sm">
                         <div className="card-body p-0">
                             <nav className="nav flex-column">
-                                <button 
+                                <button
                                     className={`nav-link py-3 border-bottom ${activeTab === 'perfil' ? 'active bg-light' : ''}`}
                                     onClick={() => setActiveTab('perfil')}
                                     style={{
@@ -322,21 +291,16 @@ export default function Perfil() {
                                     <i className="bi bi-person me-2"></i>
                                     Mi Perfil
                                 </button>
-                                <button 
-                                    className={`nav-link py-3 border-bottom ${activeTab === 'pedidos' ? 'active bg-light' : ''}`}
-                                    onClick={() => setActiveTab('pedidos')}
-                                    style={{
-                                        textAlign: 'left',
-                                        border: 'none',
-                                        background: 'none',
-                                        color: activeTab === 'pedidos' ? 'var(--choco)' : 'var(--text)',
-                                        fontWeight: activeTab === 'pedidos' ? '600' : '400'
-                                    }}
-                                >
-                                    <i className="bi bi-box-seam me-2"></i>
-                                    Mis Pedidos
-                                </button>
-                                <button 
+                                {!isAdmin && (
+                                    <button
+                                        className={`nav-link py-3 border-bottom ${activeTab === 'pedidos' ? 'active bg-light' : ''}`}
+                                        onClick={() => setActiveTab('pedidos')}
+                                    >
+                                        <i className="bi bi-box-seam me-2"></i>
+                                        Mis Pedidos
+                                    </button>
+                                )}
+                                <button
                                     className={`nav-link py-3 border-bottom ${activeTab === 'configuracion' ? 'active bg-light' : ''}`}
                                     onClick={() => setActiveTab('configuracion')}
                                     style={{
@@ -351,23 +315,22 @@ export default function Perfil() {
                                     Configuración
                                 </button>
                             </nav>
-                            
+
                             <div className="p-3">
                                 <div className="d-grid gap-2">
-                                    <Link to="/carrito" className="btn btn-accent">
-                                        <i className="bi bi-cart3 me-2"></i>
-                                        Ver Carrito
-                                    </Link>
-                                    {isAdmin && (
+                                    {isClient && (
+                                        <Link to="/carrito" className="btn btn-accent">
+                                            <i className="bi bi-cart3 me-2"></i>
+                                            Ver Carrito
+                                        </Link>
+                                    )}
+
+                                    {(isClient || isTester) && (
                                         <Link to="/admin" className="btn btn-outline-warning">
                                             <i className="bi bi-shield-lock me-2"></i>
                                             Panel Administrador
                                         </Link>
                                     )}
-                                    <Link to="/productos" className="btn btn-outline-secondary">
-                                        <i className="bi bi-bag me-2"></i>
-                                        Seguir Comprando
-                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -384,7 +347,7 @@ export default function Perfil() {
                                     <i className="bi bi-person-circle me-2"></i>
                                     Información Personal
                                 </h5>
-                                <button 
+                                <button
                                     className={`btn btn-sm ${isEditing ? 'btn-outline-danger' : 'btn-outline-primary'}`}
                                     onClick={() => setIsEditing(!isEditing)}
                                 >
@@ -505,8 +468,8 @@ export default function Perfil() {
                                             </div>
                                         </div>
                                         <div className="d-flex justify-content-end gap-2 mt-3">
-                                            <button 
-                                                type="button" 
+                                            <button
+                                                type="button"
                                                 className="btn btn-outline-secondary"
                                                 onClick={() => setIsEditing(false)}
                                             >
@@ -566,7 +529,7 @@ export default function Perfil() {
                                                             <div className="d-flex align-items-center">
                                                                 {pedido.items.slice(0, 2).map((item, index) => (
                                                                     <div key={index} className="me-2">
-                                                                        <img 
+                                                                        <img
                                                                             src={item.imagenUrl || '/placeholder-producto.jpg'}
                                                                             alt={item.nombre}
                                                                             className="rounded"
@@ -665,7 +628,7 @@ export default function Perfil() {
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div className="card border-0 mt-3" style={{ backgroundColor: '#fff7f9' }}>
                                     <div className="card-body">
                                         <h6 className="card-title">
@@ -685,6 +648,6 @@ export default function Perfil() {
                     )}
                 </div>
             </div>
-        </div>
+        </div >
     );
 }

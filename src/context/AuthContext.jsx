@@ -64,6 +64,12 @@ export function AuthProvider({ children }) {
       const response = await AuthService.register(userData);
       console.log('🟢 [AuthContext] Registro exitoso');
 
+      if (user.rol === "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/perfil");
+      }
+
       const { user: newUser, token: authToken } = response.data;
 
       setUser(newUser);
