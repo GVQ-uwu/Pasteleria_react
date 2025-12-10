@@ -10,8 +10,16 @@ export default function AdminProductoForm() {
 
   const [cats, setCats] = useState([]);
   const [form, setForm] = useState({
-    nombre: '', precio: 0, stock: 0, categoriaId: '', tipo: 'circular', tamano: 'mediana', img: '', desc: '', oferta: false, destacado: false
+    nombre: '', precio: 0, stock: 0,
+    categoria: '',
+    tipo: 'circular',
+    tamano: 'mediana',
+    imagen: '',
+    descripcion: '',
+    oferta: false,
+    destacado: false
   });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -36,21 +44,15 @@ export default function AdminProductoForm() {
 
   const loadProduct = async () => {
     try {
-      const data = await ProductService.getProductById(id);
+      const response = await ProductService.getProductById(id);
+
       setForm({
-        nombre: data.nombre,
-        precio: data.precio,
-        stock: data.stock,
-        categoriaId: data.categoria || "",
-        tipo: data.tipo,
-        tamano: data.tamano,
-        img: data.imagen,
-        desc: data.descripcion,
-        oferta: data.oferta,
-        destacado: data.destacado
+        ...response.data,
+        categoria: response.data.categoria || ''
       });
+
     } catch (err) {
-      setError('Producto no encontrado');
+      setError("Producto no encontrado");
       console.error(err);
     }
   };
@@ -96,8 +98,16 @@ export default function AdminProductoForm() {
         </div>
         <div className="col-md-4">
           <label className="form-label">Categoría</label>
-          <select className="form-select" value={form.categoriaId} onChange={e => setForm({ ...form, categoriaId: e.target.value })}>
-            {cats.map(c => (<option key={c.id} value={c.id}>{c.nombre}</option>))}
+          <select
+            className="form-select"
+            value={form.categoria}
+            onChange={e => setForm({ ...form, categoria: e.target.value })}
+          >
+            {cats.map(c => (
+              <option key={c.id} value={c.nombre}>
+                {c.nombre}
+              </option>
+            ))}
           </select>
         </div>
         <div className="col-md-4">
