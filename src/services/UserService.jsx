@@ -20,7 +20,7 @@ apiClient.interceptors.request.use(
     }
     
     // Si tu backend necesita el email en el header
-    const user = JSON.parse(localStorage.getItem('auth.user.v1'));
+    const user = JSON.parse(localStorage.getItem('auth.user.v1') || '{}'); // ✅ CORREGIDO: Manejo de null
     if (user && user.email) {
       config.headers['X-User-Email'] = user.email;
     }
@@ -77,7 +77,18 @@ export const UserService = {
     }
   },
 
-  // Actualizar usuario por ID (solo admin)
+  // ✅ NUEVO: Método para compatibilidad con AdminUsuarios
+  getUsers: async () => {
+    try {
+      const response = await apiClient.get('/usuarios');
+      return { data: response.data }; // ✅ Envuelto en objeto data para compatibilidad
+    } catch (error) {
+      console.error('Error obteniendo usuarios:', error);
+      throw error;
+    }
+  },
+
+  // ✅ NUEVO: Actualizar usuario por ID (solo admin)
   updateUser: async (id, userData) => {
     try {
       const response = await apiClient.put(`/usuarios/${id}`, userData);
@@ -88,7 +99,18 @@ export const UserService = {
     }
   },
 
-  // Eliminar usuario (solo admin)
+  // ✅ NUEVO: Crear usuario (solo admin)
+  createUser: async (userData) => {
+    try {
+      const response = await apiClient.post('/usuarios', userData);
+      return response.data;
+    } catch (error) {
+      console.error('Error creando usuario:', error);
+      throw error;
+    }
+  },
+
+  // ✅ NUEVO: Eliminar usuario (solo admin)
   deleteUser: async (id) => {
     try {
       const response = await apiClient.delete(`/usuarios/${id}`);

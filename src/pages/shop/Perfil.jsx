@@ -196,10 +196,10 @@ export default function Perfil() {
         );
     }
 
-    const role = user?.rol || "";
-    const isAdmin = role.toUpperCase() === "ADMIN";
-    const isTester = role.toUpperCase() === "TEST";
-    const isClient = role.toUpperCase() === "USER";
+    const role = (user?.rol || "").toUpperCase();
+    const isAdmin = role === "ADMIN";
+    const isTester = role === "TEST";
+    const isClient = role === "USER";
     const isActive = user?.estado === "activo";
 
 

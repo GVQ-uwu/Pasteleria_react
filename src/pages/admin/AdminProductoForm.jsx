@@ -10,7 +10,9 @@ export default function AdminProductoForm() {
 
   const [cats, setCats] = useState([]);
   const [form, setForm] = useState({
-    nombre: '', precio: 0, stock: 0,
+    nombre: '', 
+    precio: 0, 
+    stock: 0,
     categoria: '',
     tipo: 'circular',
     tamano: 'mediana',
@@ -32,10 +34,10 @@ export default function AdminProductoForm() {
 
   const loadCategories = async () => {
     try {
-      const response = await CategoryService.getCategories();
-      setCats(response.data || []);
-      if (response.data.length > 0 && !editing) {
-        setForm(prev => ({ ...prev, categoriaId: response.data[0].id }));
+      const categories = await CategoryService.getCategories();
+      setCats(categories || []);
+      if (categories && categories.length > 0 && !editing) {
+        setForm(prev => ({ ...prev, categoria: categories[0].nombre })); // ✅ CORREGIDO: categoria en lugar de categoriaId
       }
     } catch (err) {
       console.error('Error al cargar categorías:', err);
@@ -44,13 +46,20 @@ export default function AdminProductoForm() {
 
   const loadProduct = async () => {
     try {
-      const response = await ProductService.getProductById(id);
-
+      const product = await ProductService.getProductById(id);
+      // ✅ CORREGIDO: Mapeo completo y correcto de campos
       setForm({
-        ...response.data,
-        categoria: response.data.categoria || ''
+        nombre: product.nombre || '',
+        precio: product.precio || 0,
+        stock: product.stock || 0,
+        categoria: product.categoria || '',
+        tipo: product.tipo || 'circular',
+        tamano: product.tamano || 'mediana',
+        imagen: product.imagen || '', // ✅ CORREGIDO: imagen en lugar de img
+        descripcion: product.descripcion || '', // ✅ CORREGIDO: descripcion en lugar de desc
+        oferta: product.oferta || false,
+        destacado: product.destacado || false
       });
-
     } catch (err) {
       setError("Producto no encontrado");
       console.error(err);
@@ -90,7 +99,7 @@ export default function AdminProductoForm() {
         </div>
         <div className="col-md-3">
           <label className="form-label">Precio</label>
-          <input type="number" className="form-control" value={form.precio} onChange={e => setForm({ ...form, precio: parseInt(e.target.value || '0', 10) })} required />
+          <input type="number" step="0.01" className="form-control" value={form.precio} onChange={e => setForm({ ...form, precio: parseFloat(e.target.value || '0') })} required />
         </div>
         <div className="col-md-3">
           <label className="form-label">Stock</label>
@@ -102,7 +111,9 @@ export default function AdminProductoForm() {
             className="form-select"
             value={form.categoria}
             onChange={e => setForm({ ...form, categoria: e.target.value })}
+            required // ✅ AGREGADO: Validación requerida
           >
+            <option value="">Seleccionar categoría</option> {/* ✅ AGREGADO: Opción por defecto */}
             {cats.map(c => (
               <option key={c.id} value={c.nombre}>
                 {c.nombre}
@@ -129,11 +140,11 @@ export default function AdminProductoForm() {
         </div>
         <div className="col-12">
           <label className="form-label">Imagen (URL)</label>
-          <input className="form-control" value={form.img} onChange={e => setForm({ ...form, img: e.target.value })} />
+          <input className="form-control" value={form.imagen} onChange={e => setForm({ ...form, imagen: e.target.value })} /> {/* ✅ CORREGIDO: imagen */}
         </div>
         <div className="col-12">
           <label className="form-label">Descripción</label>
-          <textarea className="form-control" rows="3" value={form.desc} onChange={e => setForm({ ...form, desc: e.target.value })}></textarea>
+          <textarea className="form-control" rows="3" value={form.descripcion} onChange={e => setForm({ ...form, descripcion: e.target.value })}></textarea> {/* ✅ CORREGIDO: descripcion */}
         </div>
         <div className="col-12">
           <div className="form-check form-check-inline">
@@ -147,7 +158,12 @@ export default function AdminProductoForm() {
         </div>
         <div className="col-12 mt-2">
           <button className="btn btn-accent" disabled={loading}>
-            {loading ? 'Guardando...' : (editing ? 'Guardar cambios' : 'Crear producto')}
+            {loading ? (
+              <>
+                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> {/* ✅ CORREGIDO: Spinner Bootstrap */}
+                Guardando...
+              </>
+            ) : (editing ? 'Guardar cambios' : 'Crear producto')}
           </button>
         </div>
       </form>
