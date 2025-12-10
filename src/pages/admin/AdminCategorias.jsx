@@ -14,7 +14,7 @@ export default function AdminCategorias() {
   const loadCategorias = async () => {
     try {
       const response = await CategoryService.getCategories();
-      setCats(response.data);
+      ssetCats(response || []);
     } catch (err) {
       setError('Error al cargar categorías');
       console.error(err);

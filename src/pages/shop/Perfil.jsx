@@ -196,9 +196,11 @@ export default function Perfil() {
         );
     }
 
-    const isAdmin = userRole?.toUpperCase() === 'ADMIN';
-    const isTester = userRole?.toUpperCase() === 'TEST';
-    const isClient = userRole?.toUpperCase() === 'USER';
+    const role = user?.rol || "";
+    const isAdmin = role.toUpperCase() === "ADMIN";
+    const isTester = role.toUpperCase() === "TEST";
+    const isClient = role.toUpperCase() === "USER";
+    const isActive = user?.estado === "activo";
 
 
     return (

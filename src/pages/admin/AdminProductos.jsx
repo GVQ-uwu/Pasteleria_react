@@ -15,7 +15,7 @@ export default function AdminProductos() {
   const loadProducts = async () => {
     try {
       const response = await ProductService.getProducts();
-      setProds(response.data);
+      setProds(response);
     } catch (err) {
       setError('Error al cargar productos');
       console.error(err);
