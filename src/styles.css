@@ -222,3 +222,45 @@ a:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(255, 192, 203, 0.4);
 }
+
+/* ---------------------------------------------------------------------------- */
+/* TARJETA ANIMADA */
+.card-pro-wrapper {
+  position: relative;
+  width: 340px;
+  height: 200px;
+  margin-top: 1rem;
+  perspective: 1000px;
+}
+
+.card-pro {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 16px;
+  background: linear-gradient(135deg, #ffb6c1, #ffcfa0);
+  color: #fff;
+  backface-visibility: hidden;
+  transition: transform 0.6s ease;
+}
+
+/* estado por defecto */
+.card-pro.front {
+  transform: rotateY(0deg);
+}
+
+.card-pro.back {
+  background: #f9fafb;
+  color: #333;
+  transform: rotateY(180deg);
+}
+
+/* cuando flipped = true en el wrapper */
+.card-pro-wrapper.flipped .card-pro.front {
+  transform: rotateY(-180deg);
+}
+
+.card-pro-wrapper.flipped .card-pro.back {
+  transform: rotateY(0deg);
+}
+/* FIN TARJETA ANIMADA */

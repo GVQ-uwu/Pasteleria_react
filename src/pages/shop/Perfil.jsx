@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { UserService } from '../../services/UserService';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Perfil() {
@@ -23,9 +24,16 @@ export default function Perfil() {
 
     const navigate = useNavigate();
     const { user: authUser, token, logout } = useAuth();
+    const location = useLocation();
 
     // Cargar datos del usuario al montar el componente
     useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const tab = params.get("tab");
+
+        if (tab) {
+            setActiveTab(tab);
+        }
         const loadUserProfile = async () => {
             try {
                 setLoading(true);
@@ -76,7 +84,7 @@ export default function Perfil() {
         };
 
         loadUserProfile();
-    }, [authUser, navigate]);
+    }, [authUser, navigate, location.search]);
 
     // Cargar pedidos cuando se active la pestaña
     useEffect(() => {
@@ -196,6 +204,18 @@ export default function Perfil() {
         );
     }
 
+    {
+        user?.rol === "ADMIN" && (
+            <button
+                className="btn btn-outline-accent w-100"
+                onClick={() => navigate("/admin")}
+            >
+                Panel Administrador
+            </button>
+        )
+    }
+
+
     const role = (user?.rol || "").toUpperCase();
     const isAdmin = role === "ADMIN";
     const isTester = role === "TEST";
@@ -293,15 +313,6 @@ export default function Perfil() {
                                     <i className="bi bi-person me-2"></i>
                                     Mi Perfil
                                 </button>
-                                {!isAdmin && (
-                                    <button
-                                        className={`nav-link py-3 border-bottom ${activeTab === 'pedidos' ? 'active bg-light' : ''}`}
-                                        onClick={() => setActiveTab('pedidos')}
-                                    >
-                                        <i className="bi bi-box-seam me-2"></i>
-                                        Mis Pedidos
-                                    </button>
-                                )}
                                 <button
                                     className={`nav-link py-3 border-bottom ${activeTab === 'configuracion' ? 'active bg-light' : ''}`}
                                     onClick={() => setActiveTab('configuracion')}
@@ -326,13 +337,20 @@ export default function Perfil() {
                                             Ver Carrito
                                         </Link>
                                     )}
-
-                                    {(isClient || isTester) && (
+                                    {(isAdmin || isTester) && (
                                         <Link to="/admin" className="btn btn-outline-warning">
                                             <i className="bi bi-shield-lock me-2"></i>
                                             Panel Administrador
                                         </Link>
                                     )}
+
+                                    {isClient && (
+                                        <Link to="/perfil?tab=pedidos" className="btn btn-accent">
+                                            <i className="bi bi-cart3 me-2"></i>
+                                            Mis Pedidos
+                                        </Link>
+                                    )}
+
                                 </div>
                             </div>
                         </div>

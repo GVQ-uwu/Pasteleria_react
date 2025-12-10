@@ -97,9 +97,13 @@ export function AuthProvider({ children }) {
     setToken(null);
   };
 
-  const isAdmin = user?.rol === 'ADMIN' || user?.rol === 'TEST';
-  const isTest = user?.rol === 'TEST';
-  const isClient = user?.rol === 'CLIENTE';
+  const role = user?.rol?.toUpperCase() || null;
+
+  const isAdmin = role === "ADMIN";
+  const isTest = role === "TEST";
+  const isClient = role === "USER" || role === "CLIENTE";
+
+
   return (
     <AuthContext.Provider value={{
       user,
@@ -108,8 +112,9 @@ export function AuthProvider({ children }) {
       register,
       logout,
       isAdmin,
-      isTest,  // ← Nuevo
-      isClient, // ← Nuevo
+      isTest,
+      isClient,
+      role,
       loading
     }}>
       {children}

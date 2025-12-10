@@ -126,7 +126,9 @@ export default function Navbar() {
                   </li>
                   <li><hr className="dropdown-divider" /></li>
                   <li><Link className="dropdown-item" to="/perfil">Mi Perfil</Link></li>
-                  <li><Link className="dropdown-item" to="/mis-pedidos">Mis Pedidos</Link></li>
+                  <li><Link className="dropdown-item" to="/perfil?tab=pedidos">Mis Pedidos</Link></li>
+
+                  
                   {(isAdmin || isTest) && (
                     <li><Link className="dropdown-item" to="/admin">Panel Administrativo</Link></li>
                   )}

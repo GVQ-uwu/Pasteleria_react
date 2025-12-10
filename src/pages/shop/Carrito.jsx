@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
+import { ProductService } from '../../services/ProductService';
+import ProductImage from '../../components/ProductImage';
 
 export default function Carrito() {
     const { items, total, remove, updateQty, clear } = useCart();
@@ -78,7 +80,7 @@ export default function Carrito() {
                                 <i className="bi bi-cart-check me-2"></i>
                                 Productos ({items.length})
                             </h5>
-                            <button 
+                            <button
                                 className="btn btn-outline-danger btn-sm"
                                 onClick={() => {
                                     if (window.confirm('¿Estás seguro de vaciar el carrito?')) {
@@ -95,12 +97,11 @@ export default function Carrito() {
                                 <div key={item.id} className="cart-item p-3 border-bottom">
                                     <div className="row align-items-center">
                                         <div className="col-3 col-md-2">
-                                            <img 
-                                                src={item.img || '/placeholder-producto.jpg'} 
-                                                alt={item.nombre}
-                                                className="img-fluid rounded"
-                                                style={{ height: '80px', objectFit: 'cover' }}
+                                            <ProductImage
+                                                producto={item}
+                                                style={{ height: '200px', objectFit: 'cover' }}
                                             />
+
                                         </div>
                                         <div className="col-5 col-md-6">
                                             <h6 className="mb-1">{item.nombre}</h6>
@@ -116,14 +117,14 @@ export default function Carrito() {
                                         <div className="col-4 col-md-4">
                                             <div className="d-flex align-items-center justify-content-end gap-3">
                                                 <div className="quantity-control">
-                                                    <button 
+                                                    <button
                                                         className="btn btn-outline-secondary btn-sm"
                                                         onClick={() => updateQty(item.id, Math.max(1, item.qty - 1))}
                                                     >
                                                         <i className="bi bi-dash"></i>
                                                     </button>
                                                     <span className="mx-2">{item.qty}</span>
-                                                    <button 
+                                                    <button
                                                         className="btn btn-outline-secondary btn-sm"
                                                         onClick={() => updateQty(item.id, item.qty + 1)}
                                                     >
@@ -134,7 +135,7 @@ export default function Carrito() {
                                                     <div className="fw-bold" style={{ color: 'var(--choco)' }}>
                                                         ${(item.precio * item.qty).toLocaleString()}
                                                     </div>
-                                                    <button 
+                                                    <button
                                                         className="btn btn-link text-danger p-0"
                                                         onClick={() => remove(item.id)}
                                                     >
@@ -171,7 +172,7 @@ export default function Carrito() {
                                         value={codigoDescuento}
                                         onChange={(e) => setCodigoDescuento(e.target.value.toUpperCase())}
                                     />
-                                    <button 
+                                    <button
                                         className="btn btn-accent"
                                         onClick={aplicarDescuento}
                                     >
@@ -207,7 +208,7 @@ export default function Carrito() {
 
                             {/* Botones de acción */}
                             <div className="d-grid gap-2 mt-4">
-                                <button 
+                                <button
                                     className="btn btn-accent py-3"
                                     onClick={handleCheckout}
                                 >
