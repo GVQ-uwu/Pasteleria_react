@@ -1,96 +1,166 @@
-# 🍰 Pastelería Sabores (Backend + MySQL + Swagger + Frontend)
+# 🍰 Proyecto Fullstack de Pastelería
 
-Este repositorio contiene la solución completa de la Pastelería Sabores, incluyendo el servidor de la aplicación (Backend), la base de datos (MySQL) y la interfaz de usuario (Frontend), además de la documentación de API generada con Swagger.
+## 📋 Propósito
 
-**Integrantes:**
-* @FizzelPopBT
-* @GVQ-uwu
+Sistema web fullstack para la gestión integral de una pastelería, que permite a los clientes explorar productos, realizar compras y gestionar sus pedidos, mientras que los administradores pueden administrar el inventario, productos y usuarios de manera eficiente.
 
 ---
 
-## 🚀 Guía de Instalación y Ejecución del Proyecto
+## 🛠️ Tecnologías Utilizadas
 
-Sigue estos pasos para levantar el entorno de desarrollo completo.
+### **Frontend - React**
+- **Framework principal:** React 18.3.1
+- **Enrutamiento:** React Router DOM 6.26.2
+- **Estilos:** Bootstrap 5.3.3
+- **Peticiones HTTP:** Axios 1.13.2
+- **Herramientas de desarrollo:**
+  - Create React App (react-scripts 5.0.1)
+  - CRACO 7.1.0 (configuración personalizada)
+  - Jasmine 5.4.0 (testing)
+- **Polyfills para Node.js en navegador:**
+  - crypto-browserify
+  - buffer
+  - stream-browserify
+  - process
+  - assert
 
-### 1. ⚙️ Configuración del Entorno Local (XAMPP)
+**Repositorio Frontend:** [Pasteleria_react](https://github.com/GenesisValdebenito/Pasteleria_react.git)
 
-Necesitas un servidor web local para el Backend (si es PHP) y la base de datos.
+### **Backend - Spring Boot**
+- **Framework:** Spring Boot 3.2.1
+- **Lenguaje:** Java 17
+- **Gestor de dependencias:** Maven
+- **Base de datos:** MySQL
+- **Dependencias principales:**
+  - **Spring Boot Starter Data JPA** - Persistencia y ORM
+  - **Spring Boot Starter Security** - Autenticación y autorización
+  - **Spring Boot Starter Web** - API REST
+  - **MySQL Connector J** - Conexión con base de datos MySQL
+  - **Lombok** - Reducción de código boilerplate
+  - **JWT (JSON Web Tokens):**
+    - jjwt-api 0.11.5
+    - jjwt-impl 0.11.5
+    - jjwt-jackson 0.11.5
+  - **SpringDoc OpenAPI** 2.5.0 - Documentación de API (Swagger)
+  - **Spring Boot Starter Test** - Testing
 
-| Tarea | Instrucciones |
-| :--- | :--- |
-| **Abrir el Panel de Control** | Localiza y abre la aplicación del **Panel de Control de XAMPP**. |
-| **Iniciar Apache** | Haz clic en **Start (Iniciar)** junto a **Apache**. |
-| **Iniciar MySQL** | Haz clic en **Start (Iniciar)** junto a **MySQL**. |
-
-> **Verificación:** Los módulos Apache y MySQL deben mostrar un color verde.
-
-### 2. 🗄️ Configuración de la Base de Datos (MySQL)
-
-Es fundamental tener la base de datos lista para que el Backend pueda operar.
-
-1.  **Acceder a phpMyAdmin:** Abre tu navegador y dirígete a `http://localhost/phpmyadmin/`.
-2.  **Crear la Base de Datos:**
-    * Crea una nueva base de datos con el nombre: **`pasteleria`**.
-3.  **Importar el Esquema:**
-    * Ve a la pestaña **Importar** de la base de datos `pasteleria`.
-    * Selecciona el archivo SQL del proyecto (e.g., `pasteleria.sql` o similar) y ejecútalo para crear las tablas y datos iniciales.
-
----
-
-### 3. 💻 Ejecución y Pruebas del Backend (Servidor API)
-
-El Backend debe ejecutarse primero para que el Frontend pueda consumir sus servicios.
-
-1.  **Navegar al Directorio:** Abre la terminal y navega a la carpeta principal del Backend:
-    ```bash
-    cd [ruta-a-tu-proyecto]/backend
-    ```
-2.  **Instalar Dependencias (Solo la primera vez):**
-    ```bash
-    npm install
-    ```
-3.  **Ejecutar el Servidor:**
-    ```bash
-    # Usar el comando de inicio definido en package.json
-    npm start
-    ```
-    > **Resultado Esperado:** El servidor se inicia y se indica el puerto de escucha (e.g., "Servidor corriendo en el puerto 3001").
-
-#### 📑 Documentación de API (Swagger)
-
-Una vez que el Backend esté corriendo, puedes acceder a la documentación de la API:
-* **URL:** `http://localhost:[Puerto-del-Backend]/api-docs`
-    *(Reemplaza `[Puerto-del-Backend]` con el puerto real, ej: 3001)*
-
-#### 🧪 Pruebas de Endpoints (Postman)
-
-Para verificar que los endpoints de la API funcionan correctamente:
-
-1.  **Importar Colección:**
-    * Abre Postman.
-    * Importa la colección de endpoints del proyecto, ubicada en: `[ruta-a-tu-proyecto]/docs/Postman_Collection.json`.
-2.  **Ajustar Entorno:**
-    * Si la colección usa variables de entorno (como `{{baseURL}}`), asegúrate de que la variable apunte a la URL correcta del Backend (e.g., `http://localhost:3001`).
-3.  **Ejecutar Pruebas:**
-    * Ejecuta las solicitudes (`GET`, `POST`, etc.) dentro de la colección para asegurar la respuesta esperada de cada servicio.
+**Repositorio Backend:** [pasteleria-SB](https://github.com/GenesisValdebenito/pasteleria-SB.git)
 
 ---
 
-### 4. 🌐 Ejecución del Frontend (React)
+## ✨ Características Principales
 
-El Frontend interactúa con el usuario y se conecta al Backend.
+### 🛒 **Carrito de Compras**
+Sistema completo de carrito de compras que permite a los usuarios:
+- Agregar productos con diferentes cantidades
+- Modificar cantidades de productos
+- Eliminar productos del carrito
+- Visualizar el total de la compra en tiempo real
+- Persistencia del carrito durante la sesión
 
-1.  **Navegar al Directorio:** Abre una **nueva terminal** y navega a la carpeta del Frontend:
-    ```bash
-    cd [ruta-a-tu-proyecto]/frontend
-    ```
-2.  **Instalar Dependencias (Solo la primera vez):**
-    ```bash
-    npm install
-    ```
-3.  **Iniciar la Aplicación:**
-    ```bash
-    npm start
-    ```
+### 🔐 **Sistema de Autenticación Seguro**
+Implementación de seguridad robusta mediante:
+- Autenticación basada en JWT (JSON Web Tokens)
+- Spring Security para protección de endpoints
+- Encriptación de contraseñas
+- Gestión de sesiones seguras
+- Control de acceso basado en roles
 
-**¡Listo!** La aplicación se abrirá automáticamente en tu navegador (normalmente en `http://localhost:3000`).
+### 👥 **Interfaz Dual: Cliente y Administrador**
+
+**Panel de Cliente:**
+- Navegación intuitiva de productos
+- Visualización detallada de productos
+- Gestión de carrito de compras
+- Historial de pedidos
+- Perfil de usuario
+
+**Panel de Administrador:**
+- Gestión completa de productos (CRUD)
+- Administración de usuarios
+- Control de inventario
+- Visualización de pedidos
+- Dashboard con estadísticas
+
+### 🎨 **Diseño Responsivo**
+- Interfaz adaptable a diferentes dispositivos
+- Experiencia de usuario optimizada
+- Diseño moderno con Bootstrap
+
+---
+
+## 👨‍💻 Equipo de Desarrollo
+
+Proyecto grupal desarrollado por **2 estudiantes** como parte de su formación académica en desarrollo de aplicaciones fullstack.
+
+### 🤖 Uso de Inteligencia Artificial
+
+Durante el desarrollo del proyecto se utilizó **IA como herramienta de apoyo** para:
+- Resolución de problemas técnicos
+- Optimización de código
+- Consultas sobre mejores prácticas
+- Debugging y solución de errores
+- Generación de ideas para funcionalidades
+
+---
+
+## 🚧 Estado del Proyecto
+
+**⚠️ Proyecto en Desarrollo Activo**
+
+Este proyecto se encuentra actualmente en fase de desarrollo y mejora continua. Algunas características están siendo optimizadas y se planean agregar nuevas funcionalidades en futuras versiones.
+
+### Próximas Mejoras Planificadas:
+- Integración de pasarela de pagos
+- Sistema de notificaciones por email
+- Mejoras en la interfaz de usuario
+- Optimización del rendimiento
+- Ampliación de funcionalidades del panel de administrador
+- Implementación de sistema de reseñas y valoraciones
+
+---
+
+## 📦 Instalación y Configuración
+
+### Frontend (React)
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/GenesisValdebenito/Pasteleria_react.git
+
+# Instalar dependencias
+cd Pasteleria_react
+npm install
+
+# Iniciar el servidor de desarrollo
+npm start
+```
+
+### Backend (Spring Boot)
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/GenesisValdebenito/pasteleria-SB.git
+
+# Configurar la base de datos MySQL en application.properties
+cd pasteleria-SB
+
+# Compilar y ejecutar
+./mvnw spring-boot:run
+```
+
+---
+
+## 📄 Licencia
+
+Proyecto académico desarrollado con fines educativos.
+
+---
+
+## 📧 Contacto
+
+Para consultas o sugerencias sobre el proyecto, por favor contactar a través de los repositorios de GitHub.
+
+---
+
+**Desarrollado con ❤️ y ☕ por estudiantes apasionados por la tecnología**
