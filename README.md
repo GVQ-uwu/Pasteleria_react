@@ -122,32 +122,75 @@ Este proyecto se encuentra actualmente en fase de desarrollo y mejora continua. 
 
 ## 📦 Instalación y Configuración
 
-### Frontend (React)
+### Requisitos Previos
+- Node.js y npm instalados
+- Java 17 o superior
+- Maven
+- XAMPP (para Apache y MySQL)
+
+### Orden de Inicialización
+
+**Es importante seguir este orden para el correcto funcionamiento del sistema:**
+
+#### 1️⃣ **XAMPP - Base de Datos**
 
 ```bash
-# Clonar el repositorio
-git clone https://github.com/GenesisValdebenito/Pasteleria_react.git
+# Tener instalado XAMPP
 
-# Instalar dependencias
-cd Pasteleria_react
-npm install
+# Iniciar servicios de:
+- Apache
+- MySQL
 
-# Iniciar el servidor de desarrollo
-npm start
+# Ingresar a Admin de MySQL (phpMyAdmin) e importar/crear la base de datos:
+# Acceder a: http://localhost/phpmyadmin
+# Crear una nueva base de datos llamada: pasteleria_db
+# Importar el archivo SQL proporcionado o crear las tablas necesarias
 ```
 
-### Backend (Spring Boot)
+#### 2️⃣ **Backend - Spring Boot**
 
 ```bash
 # Clonar el repositorio
 git clone https://github.com/GenesisValdebenito/pasteleria-SB.git
-
-# Configurar la base de datos MySQL en application.properties
 cd pasteleria-SB
 
-# Compilar y ejecutar
+# Configurar application.properties con los datos de tu base de datos MySQL
+# src/main/resources/application.properties
+# spring.datasource.url=jdbc:mysql://localhost:3306/pasteleria_db
+# spring.datasource.username=root
+# spring.datasource.password=
+
+# Compilar y ejecutar el backend
 ./mvnw spring-boot:run
+
+# El backend estará disponible en: http://localhost:8080
 ```
+
+#### 3️⃣ **Frontend - React**
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/GenesisValdebenito/Pasteleria_react.git
+cd Pasteleria_react
+
+# Instalar dependencias
+npm install
+
+# Iniciar el servidor de desarrollo
+npm start
+
+# El frontend estará disponible en: http://localhost:3000
+```
+
+### ⚠️ Notas Importantes
+
+- **Asegúrate de que XAMPP esté corriendo** antes de iniciar el backend
+- **El backend debe estar activo** antes de iniciar el frontend
+- **Verifica las conexiones** entre los servicios antes de usar la aplicación
+- **Puertos por defecto:**
+  - MySQL: 3306
+  - Backend: 8080
+  - Frontend: 3000
 
 ---
 
@@ -163,4 +206,4 @@ Para consultas o sugerencias sobre el proyecto, por favor contactar a través de
 
 ---
 
-**Desarrollado con ❤️ y ☕ por estudiantes apasionados por la tecnología**
+**Documentacion desarrollado por MGX | Atoms.dev**
